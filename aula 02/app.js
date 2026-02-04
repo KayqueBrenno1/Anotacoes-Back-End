@@ -46,6 +46,17 @@
         E -> AND -> &&
         OU -> OR -> ||
         NAO -> NOT -> !
+
+    Formas de conversão de tipos de dados
+        parseInt() -> Permite converter um conteúdo em número do tipo INTEIRO
+        parseFloat() -> Permite converter um conteúdo em número do tipo DECIMAL
+        Number() -> Permite converter um conteúdo para NÚMERO, podendo ser
+        inteiro ou decimal
+        String() -> Permite converter um conteúdo em STRING
+        Boolean() -> Permite converter um conteúdo para BOOLEANO (true ou false)
+
+        typeof() -> Retorna o tipo de dados de uma variável
+        (String, Number, Boolean ou Object)
 */
 
 //Import da biblioteca de entrada de dados
@@ -89,6 +100,26 @@ entradaDeDados.question("Digite o nome do aluno: ", function(nome){
                         console.log("Não é permitido nota menor que 0 e maior que 100");
                     }else if(isNaN(nota1) || isNaN(nota2) || isNaN(nota3) || isNaN(nota4)){
                         console.log("ERRO: Somente números são permitidos na entrada de notas");
+                    }else{
+                        let somarNotas = Number(nota1) + Number(nota2) + Number(nota3) + Number(nota4);
+                        let media = somarNotas / 4;
+                        let status;
+
+                        //Validação dos status do aluno
+                        if(media > 70){
+                            status = "Parabéns o aluno(a) " + nomeAluno + " foi aprovado!!";
+                        }else if(media < 50){
+                            status = "Que pena! O aluno(a) " + nomeAluno + " foi reprovado";
+                        }else{
+                            status = "Bola na trave!! O aluno(a) " + nomeAluno + " ficou de recuperação";
+                        };
+
+                        //toFixed() é um método que permite fixar a quantidade de casas decimais
+
+                        //Exibir na tela a média e o status do aluno
+                        console.log("O aluno(a) " + nomeAluno + " teve a média final em " + media.toFixed(2));
+                        console.log(status);
+                        console.log("----------------------------------------------------------------");
                     };
                 });
             });
