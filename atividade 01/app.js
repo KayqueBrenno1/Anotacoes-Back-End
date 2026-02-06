@@ -1,6 +1,6 @@
 /* 
 * Objetivo: Desenvolver uma aplicação para a empresa Viva Moda
-* Autor: Kayque Almeida
+* Autor: Kayque Brenno Ferreira Almeida
 * Data: 04/02/2026
 * Versão: 1.0
 */
@@ -41,6 +41,7 @@ entradaDeDados.question("Digite o nome do cliente: ", function (nome) {
                         entradaDeDados.question("Digite a quantidade de parcelas: ", function (parcelas) {
                             let quantidadeParcelas = Number(parcelas);
 
+                            //CONVERSAO DE ANOS PARA MESES
                             if (formaDeParcelamento == 2) {
                                 quantidadeParcelas = quantidadeParcelas * 12;
                             };
@@ -51,16 +52,19 @@ entradaDeDados.question("Digite o nome do cliente: ", function (nome) {
                             //Calcular a diferenca entre a montante e o valor do produto
                             let diferenca = (montante - valorCompra).toFixed(2);
 
+                            //Validação de entradas vazias, números em lugares de letras e vice-versa
                             if (nomeCliente == "" || nomeProduto == "" || valorCompra == "" || taxaJuros == "" || quantidadeParcelas == "") {
-                                console.log("Existem campos obrigatórios que não foram preenchidos");
+                                console.log("ERRO: Existem campos obrigatórios que não foram preenchidos");
 
                             } else if (isNaN(valorCompra) || isNaN(taxaJuros) || isNaN(quantidadeParcelas)) {
-                                console.log("ERRO: Campos que são permitidos apenas números foram preenchidos com letras");
+                                console.log("ERRO: Campos que permitem apenas números foram preenchidos com letras");
 
                             } else if (!isNaN(nomeCliente) || !isNaN(nomeProduto)) {
-                                console.log("ERRO: Existem números em campos que são permitidos apenas letras");
+                                console.log("ERRO: Existem números em campos que permitem apenas letras");
 
                             } else {
+
+                                //SAIDA DE DADOS
                                 console.log("\n******************* Viva Moda *******************");
                                 console.log("Muito obrigado por realizar a sua compra conosco Sr(a) " + nomeCliente);
                                 console.log("A compra do produto " + nomeProduto + ", tem um valor de: R$" + valorCompra + ".");
