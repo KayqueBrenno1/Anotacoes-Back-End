@@ -13,6 +13,9 @@ const entradaDeDados = readline.createInterface({
     output: process.stdout
 });
 
+// Variável de validação de símbolos e quantidade mínima de caracteres
+const verificadorSimbolos = /^[\p{L} ]{2,}$/u;
+
 //Receber o nome do cliete
 entradaDeDados.question("Digite o nome do cliente: ", function (nome) {
     let nomeCliente = nome;
@@ -57,10 +60,10 @@ entradaDeDados.question("Digite o nome do cliente: ", function (nome) {
                                 console.log("ERRO: Existem campos obrigatórios que não foram preenchidos");
 
                             } else if (isNaN(valorCompra) || isNaN(taxaJuros) || isNaN(quantidadeParcelas)) {
-                                console.log("ERRO: Campos que permitem apenas números foram preenchidos com letras");
+                                console.log("ERRO: Campos que permitem apenas números foram preenchidos com letras ou caracteres");
 
-                            } else if (!isNaN(nomeCliente) || !isNaN(nomeProduto)) {
-                                console.log("ERRO: Existem números em campos que permitem apenas letras");
+                            } else if (!isNaN(nomeCliente) || !verificadorSimbolos.test(nomeCliente) || !isNaN(nomeProduto) || !verificadorSimbolos.test(nomeProduto)) {
+                                console.log("ERRO: Existem números ou caracteres em campos que permitem apenas letras");
 
                             } else {
 
