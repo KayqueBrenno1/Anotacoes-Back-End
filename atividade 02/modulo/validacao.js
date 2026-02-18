@@ -22,7 +22,7 @@ function validarNumeros(fator1, fator2) {
 
 //Função para identificar a operação
 function identificarOperacao(operacaoEscolhida) {
-    let operacao = String(operacaoEscolhida).toLowerCase(); //padroniza tudo para minúsculo
+    let operacao = operacaoEscolhida.toLowerCase(); //padroniza tudo para minúsculo
     let sinal;
 
     if (operacao === "adição" || operacao === "adicao" || operacao === "soma" || operacao === "+") {
