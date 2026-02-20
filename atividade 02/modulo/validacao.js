@@ -14,9 +14,9 @@ function validarNumeros(fator1, fator2) {
         console.log("------------------------------------------------------------------------");
         console.log("Os campos não foram preenchidos corretamente.");
         console.log("------------------------------------------------------------------------");
-        return true;
+        return true; //Retorna o erro
     } else {
-        return false;
+        return false; //Está ok
     };
 };
 
@@ -25,7 +25,7 @@ function identificarOperacao(operacaoEscolhida) {
     let operacao = operacaoEscolhida.toLowerCase(); //padroniza tudo para minúsculo
     let sinal;
 
-    if (operacao === "adição" || operacao === "adicao" || operacao === "soma" || operacao === "+") {
+    if (operacao === "adição" || operacao === "adicao" || operacao === "mais" || operacao === "somar" || operacao === "+") {
         sinal = "+";
         return sinal;
     } else if (operacao === "subtração" || operacao === "subtracao" || operacao === "menos" || operacao === "-") {

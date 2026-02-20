@@ -29,9 +29,8 @@ entradaDeDados.question("Digite o nome do aluno: ", function (nome) {
                 entradaDeDados.question("Digite a nota4: ", function (valor4) {
                     let nota4 = valor4;
 
-                    console.log("----------------------------------------------------------------");
-
                     if (nomeAluno == "" || !isNaN(nomeAluno)) {
+                        console.log("----------------------------------------------------------------");
                         console.log("ERRO: Não é permitido numeros ou campo vazio.");
                         console.log("----------------------------------------------------------------");
 
@@ -48,12 +47,15 @@ entradaDeDados.question("Digite o nome do aluno: ", function (nome) {
 
                         if (media) {
                             //Exibir na tela a média e o status do aluno
+                            console.log("---------------------------MÉDIA------------------------------");
                             console.log("O aluno(a) " + nomeAluno + " teve a média final em " + media);
+                            console.log("\n---------------------------STATUS-------------------------------");
                             console.log(status);
-                            console.log("----------------------------------------------------------------");
+                            console.log("\n----------------------------------------------------------------");
 
                             entradaDeDados.close();
                         } else {
+                            console.log("----------------------------------------------------------------");
                             console.log("ERRO: Não foi possível processar o cálculo.");
                             console.log("----------------------------------------------------------------");
 

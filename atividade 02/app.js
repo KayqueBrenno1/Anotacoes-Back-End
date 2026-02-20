@@ -17,8 +17,9 @@ const entradaDeDados = readline.createInterface({
 const validacao = require("./modulo/validacao.js");
 const calculo = require("./modulo/calculo.js");
 
-console.log("------------------------------------------------------------------------");
+console.log("----------------------------CALCULADORA---------------------------------");
 
+//Entrada de dados do usuário
 entradaDeDados.question("Digite o primeiro fator: ", function (numero1) {
     let primeiroFator = Number(numero1.trim().replace(",", "."));
 
