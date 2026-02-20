@@ -18,17 +18,21 @@ function calcularSituacao(fator1, fator2, operacao) {
         return false;
     };
     
+    let resultado;
+
     if (sinal == "+") {
-        return valor1 + valor2;
+        resultado = valor1 + valor2;
     } else if (sinal == "-") {
-        return valor1 - valor2;
+        resultado = valor1 - valor2;
     } else if (sinal == "*") {
-        return valor1 * valor2;
+        resultado = valor1 * valor2;
     } else if (sinal == "/") {
-        return valor1 / valor2;
+        resultado = valor1 / valor2;
     } else {
         return false;
     };
+
+    return resultado;
 };
 
 module.exports = {
