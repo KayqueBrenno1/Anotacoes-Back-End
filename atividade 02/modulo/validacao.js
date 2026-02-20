@@ -14,9 +14,9 @@ function validarNumeros(fator1, fator2) {
         console.log("------------------------------------------------------------------------");
         console.log("Os campos não foram preenchidos corretamente.");
         console.log("------------------------------------------------------------------------");
-        return true; //Retorna o erro
+        return false; //Retorna o erro
     } else {
-        return false; //Está ok
+        return true; //Está ok
     };
 };
 
@@ -27,35 +27,40 @@ function identificarOperacao(operacaoEscolhida) {
 
     if (operacao === "adição" || operacao === "adicao" || operacao === "mais" || operacao === "somar" || operacao === "+") {
         sinal = "+";
-        return sinal;
     } else if (operacao === "subtração" || operacao === "subtracao" || operacao === "menos" || operacao === "-") {
         sinal = "-";
-        return sinal;
     } else if (operacao === "multiplicação" || operacao === "multiplicacao" || operacao === "vezes" || operacao === "*") {
         sinal = "*";
-        return sinal;
     } else if (operacao === "divisão" || operacao === "divisao" || operacao === "/") {
         sinal = "/";
-        return sinal;
     } else {
         console.log("------------------------------------------------------------------------");
         console.log("ERRO: NÃO FOI POSSÍVEL PROSSEGUIR, VERIFIQUE SE PREENCHEU CORRETAMENTE.");
         console.log("------------------------------------------------------------------------");
+
         return false;
-    }
+    };
+
+    return sinal;
 };
 
-function validarOperacao(operacaoValidar) {
-    let operacao = operacaoValidar;
+//Função para validar divisão por zero
+function validarDivisao(fator2, operacao) {
+    let sinal = operacao.toLowerCase(); //Padronizar as respostas do usuário
 
-    if (operacao == "" || !isNaN(operacao)) {
-        return false
+    //Caso não seja divisão ou o valor seja válido, permite a continuação do cálculo
+    if ((sinal === "/" || sinal === "divisão" || sinal === "divisao") && fator2 === 0) {
+        console.log("------------------------------------------------------------------------");
+        console.log("ERRO: Não é possível dividir por 0.");
+        console.log("------------------------------------------------------------------------");
+        return false;
     } else {
-        return operacao;
+        return true;
     };
-}
+};
 
 module.exports = {
     validarNumeros,
-    identificarOperacao
+    identificarOperacao,
+    validarDivisao
 };

@@ -17,7 +17,7 @@ const entradaDeDados = readline.createInterface({
 const validacao = require("./modulo/validacao.js");
 const calculo = require("./modulo/calculo.js");
 
-console.log("----------------------------CALCULADORA---------------------------------");
+console.log("\n----------------------------CALCULOS SA---------------------------------");
 
 //Entrada de dados do usuário
 entradaDeDados.question("Digite o primeiro fator: ", function (numero1) {
@@ -31,13 +31,9 @@ entradaDeDados.question("Digite o primeiro fator: ", function (numero1) {
 
             let sinal = validacao.identificarOperacao(operacaoEscolhida);
             let verificarNumeros = validacao.validarNumeros(primeiroFator, segundoFator);
+            let verificarDivisao = validacao.validarDivisao(segundoFator, operacaoEscolhida);
 
-            if (verificarNumeros) {
-                entradaDeDados.close();
-                return false;
-            } else if (!sinal) {
-                entradaDeDados.close();
-            } else {
+            if (verificarNumeros && sinal && verificarDivisao) {
                 let calculoFinal = calculo.calcularSituacao(primeiroFator, segundoFator, operacaoEscolhida);
 
                 console.log("------------------------------------------------------------------------");
@@ -48,8 +44,9 @@ entradaDeDados.question("Digite o primeiro fator: ", function (numero1) {
                 console.log("------------------------------------------------------------------------");
 
                 entradaDeDados.close();
+            } else {
+                entradaDeDados.close();
             };
-
         });
     });
 });
