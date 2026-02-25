@@ -13,13 +13,13 @@ let sinal = "somar";
 
 let validar = calculosMatematicos.validarDados(n1, n2, sinal);
 
-if(validar){
+if (validar) {
     let result = calculosMatematicos.calcular(n1, n2, sinal);
 
-    if(result)
+    if (result)
         console.log(result);
     else
         console.log("ERRO: Não foi possível fazer o calculo.");
-}else{
+} else {
     console.log("ERRO: Validação incorreta.");
 }
