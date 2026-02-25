@@ -9,14 +9,14 @@
 
 //Exemplo de Função Anonima
 
-const validarDados = function(numero1, numero2, operador){
+const validarDados = function (numero1, numero2, operador) {
     let n1 = Number(numero1);
     let n2 = Number(numero2);
     let tipo = String(operador);
 
-    if(n1 == "" || isNaN(n1) || n2 == "" || isNaN(n2) || operador == ""){
+    if (n1 == "" || isNaN(n1) || n2 == "" || isNaN(n2) || operador == "") {
         return false;
-    }else{
+    } else {
         return true;
     };
 }
@@ -57,9 +57,9 @@ const calcular = function (numero1, numero2, operador) {
     };
 
     //Saída
-    if(resultado != undefined){
+    if (resultado != undefined) {
         return resultado;
-    } else{
+    } else {
         return false;
     };
 
