@@ -9,6 +9,17 @@
 
 //Exemplo de Função Anonima
 
+const validarDados = function(numero1, numero2, operador){
+    let n1 = Number(numero1);
+    let n2 = Number(numero2);
+    let tipo = String(operador);
+
+    if(n1 == "" || isNaN(n1) || n2 == "" || isNaN(n2) || operador == ""){
+        return false;
+    }else{
+        return true;
+    };
+}
 //Função para calcular as 4 operações matemáticas
 const calcular = function (numero1, numero2, operador) {
     let valor1 = Number(numero1);
@@ -18,30 +29,30 @@ const calcular = function (numero1, numero2, operador) {
     let resultado;
 
     //Processamento
-    /* if(operadorMatematico == "SOMAR"){
+    /* if(operadorMatematico == "SOMAR")
         resultado = valor1 + valor2;
-    }else if(operadorMatematico == "SUBTRAIR"){
+    else if(operadorMatematico == "SUBTRAIR")
         resultado = valor1 - valor2;
-    }else if(operadorMatematico == "MULTIPLICAR"){
+    else if(operadorMatematico == "MULTIPLICAR")
         resultado = valor1 * valor2;
-    }else if(operadorMatematico == "DIVIDIR"){
+    else if(operadorMatematico == "DIVIDIR")
         resultado = valor1 / valor2;
-    }else{
+    else
         return false;
-    }; */
+    */
 
     switch (operadorMatematico) {
         case "SOMAR":
-            resultado = valor1 + valor2;
+            resultado = somar(valor1, valor2);
             break;
         case "SUBTRAIR":
-            resultado = valor1 - valor2;
+            resultado = subtrair(valor1, valor2);
             break;
         case "MULTIPLICAR":
-            resultado = valor1 * valor2;
+            resultado = multiplicar(valor1, valor2);
             break;
         case "DIVIDIR":
-            resultado = valor1 / valor2;
+            resultado = dividir(valor1, valor2);
             break;
     };
 
@@ -54,6 +65,17 @@ const calcular = function (numero1, numero2, operador) {
 
 };
 
-//Testando a função
-let result = calcular(50, 25, "Subtrair");
-console.log(result);
+//Função baseada em formato de seta (ARROW FUNCTION)
+const somar = (numero1, numero2) => Number(numero1) + Number(numero2);
+const subtrair = (numero1, numero2) => Number(numero1) - Number(numero2);
+const multiplicar = (numero1, numero2) => Number(numero1) * Number(numero2);
+const dividir = (numero1, numero2) => Number(numero1) / Number(numero2);
+
+module.exports = {
+    calcular,
+    somar,
+    subtrair,
+    multiplicar,
+    dividir,
+    validarDados
+};
