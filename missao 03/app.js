@@ -29,25 +29,21 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
         let calculadora = formatacao.formatarTipoDeCalculadora(calculadoraInformada);
         
         if (calculadora === "IMC") {
-            // Entrada do peso
             entradaDeDados.question("\nDigite o peso em kg: ", function (peso) {
                 let pesoInformado = peso.replace(",", ".");
                 let validacaoPeso = validacao.validarEntradaDeNumber(pesoInformado);
 
-                // Validação do peso e entrada da medição
                 if (validacaoPeso) {
                     entradaDeDados.question("Escolha se você usará (metros ou centímetros) para informar o peso: ", function (medicao) {
                         let medicaoInformada = medicao.trim().toUpperCase();
                         let medicaoValidada1 = validacao.validarEntradaDeString(medicaoInformada);
                         let medicaoValidada2 = validacao.validarMedicaoAltura(medicaoInformada);
 
-                        // Validação da medição e entrada da altura
                         if (medicaoValidada1 && medicaoValidada2) {
                             entradaDeDados.question(`Digite a altura em ${medicaoInformada}: `, function (altura) {
                                 let alturaInformada = altura.replace(",", ".");
                                 let alturaValidada = validacao.validarEntradaDeNumber(alturaInformada);
 
-                                //Calculo IMC e validacao altura
                                 if (alturaValidada) {
                                     let resultadoImc = calculos.calcularImc(pesoInformado, alturaInformada, medicaoInformada);
                                     let classificacaoImc = formatacao.formatarClassificacaoImc(resultadoImc);
@@ -70,12 +66,10 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
                 };
             });
         } else if (calculadora === "MÉDIA") {
-            //Entrada do nome do professor
             entradaDeDados.question("\nDigite o nome do professor: ", function (nomeProfessor) {
                 let nomeProfInf = nomeProfessor.trim();
                 let nomeProfessorVal = validacao.validarEntradaDeString(nomeProfInf);
 
-                //Entrada do gênero do professor
                 if (nomeProfessorVal) {
                     entradaDeDados.question("Digite o gênero do professor (MASCULINO ou FEMININO): ", function (generoProfessor) {
                         let generoInformado = generoProfessor.trim();
@@ -83,13 +77,11 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
                         let generoValidado2 = validacao.validarGenero(generoInformado);
                         let sexoProfessor = formatacao.formatarGeneroProfessor(generoProfessor);
                         
-                        // Entrada do nome do aluno
                         if (generoValidado1 && generoValidado2) {
                             entradaDeDados.question("Digite o nome do aluno: ", function (nomeAluno) {
                                 let nomeAlunoInformado = nomeAluno.trim();
                                 let nomeAlunoValidado = validacao.validarEntradaDeString(nomeAlunoInformado);
 
-                                // Entrada do gênero do aluno
                                 if (nomeAlunoValidado) {
                                     entradaDeDados.question("Digite o gênero do aluno (MASCULINO ou FEMININO): ", function (generoAluno) {
                                         let generoAlunoInformado = generoAluno.trim();
@@ -97,19 +89,16 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
                                         let generoAlunoVal2 = validacao.validarGenero(generoAlunoInformado);
                                         let sexoAluno = formatacao.formatarGeneroAluno(generoAlunoInformado);
                                         
-                                        // Entrada do nome do curso
                                         if (generoAlunoVal1 && generoAlunoVal2) {
                                             entradaDeDados.question("Digite o nome do curso: ", function (nomeCurso) {
                                                 let nomeCursoInformado = nomeCurso.trim();
                                                 let nomeCursoValidado = validacao.validarEntradaDeString(nomeCursoInformado);
 
-                                                // Entrada da disciplina
                                                 if (nomeCursoValidado) {
                                                     entradaDeDados.question("Digite a disciplina: ", function (disciplina) {
                                                         let disciplinaInformada = disciplina.trim();
                                                         let disciplinaValidada = validacao.validarEntradaDeString(disciplinaInformada);
 
-                                                        // Entrada e validação das notas
                                                         if (disciplinaValidada) {
                                                             console.log("\nAs notas devem ser entre 0 e 100.")
                                                             entradaDeDados.question("Digite a primeira nota: ", function (valor1) {
@@ -223,13 +212,11 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
                 };
             });
         } else if (calculadora === "TABUADA") {
-            // Entrada do número para a primeira tabuada
             entradaDeDados.question("\nDigite um número para ser a primeira tabuada. Exceto 1: ", function (numero) {
                 let numero1Informado = numero.trim();
                 let numero1Val1 = validacao.validarEntradaDeNumber(numero1Informado);
                 let numero1Val2 = validacao.validarNumeroParaTabuada(numero1Informado);
 
-                // Validação do número e entrada do segundo número para a tabuada
                 if (numero1Val1 && numero1Val2) {
                     entradaDeDados.question(`Digite um número maior que ${numero1Informado} para ser a tabuada final: `, function (numero2) {
                         let numero2Informado = numero2.trim();
@@ -237,21 +224,18 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
                         let numero2Val2 = validacao.validarNumeroParaTabuada(numero2Informado);
                         let numero2Val3 = validacao.maior(numero2Informado, numero1Informado);
 
-                        // Validação do segundo número e entrada do contador para a tabuada
                         if (numero2Val1 && numero2Val2 && numero2Val3) {
                             entradaDeDados.question("Digite um número para ser o primeiro contador da tabuada: ", function (multiplicador) {
                                 let contador1Informado = multiplicador.trim();
                                 let contador1Val1 = validacao.validarEntradaDeNumber(contador1Informado);
                                 let contador1Val2 = validacao.maior(contador1Informado, -1);
 
-                                // Validação do contador e entrada do contador final para a tabuada
                                 if (contador1Val1 && contador1Val2) {
                                     entradaDeDados.question("Digite um número para ser o contador final da tabuada: ", function (contadorFinal) {
                                         let contador2Informado = contadorFinal.trim();
                                         let contador2Val1 = validacao.validarEntradaDeNumber(contador2Informado);
                                         let contador2Val2 = validacao.maior(contador2Informado, contador1Informado);
 
-                                        // Validação do contador final e cálculo da tabuada
                                         if (contador2Val1 && contador2Val2) {
                                             let resultadoTabuada = formatacao.formatarTabuada(numero1Informado, numero2Informado, contador1Informado, contador2Informado);
 
@@ -278,14 +262,12 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
                 };
             });
         } else if (calculadora === "FATORIAL") {
-            // Entrada do número para o cálculo do fatorial
             entradaDeDados.question("\nDigite um número inteiro maior que 1 para calcular o fatorial: ", function (numeroFatorial) {
                 let numeroFatInformado = numeroFatorial.trim().replaceAll("!", "");
                 let numeroFatorialVal1 = validacao.validarEntradaDeNumber(numeroFatInformado);
                 let numeroFatorialVal2 = validacao.validarNumeroInteiro(numeroFatInformado);
                 let numeroFatorialVal3 = validacao.maior(numeroFatInformado, 1);
 
-                // Validação do número para o cálculo do fatorial
                 if (numeroFatorialVal1 && numeroFatorialVal2 && numeroFatorialVal3) {
                     let resultadoFat = calculos.calcularFatorial(numeroFatInformado);
                     let expressao = formatacao.formatarExpressaoFatorial(numeroFatInformado);
@@ -297,7 +279,6 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
                 entradaDeDados.close();
             });
         } else {
-            // Entrada do número inicial para o cálculo de pares e ímpares
             entradaDeDados.question("\nDigite o Número Inicial (0 até 500): ", function (numeroInicial) {
                 let numeroInicialInformado = numeroInicial.trim();
                 let numeroIniValidado1 = validacao.validarEntradaDeNumber(numeroInicialInformado);
@@ -305,7 +286,6 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
                 let numeroIniValidado3 = validacao.maior(numeroInicialInformado, -1);
                 let numeroIniValidado4 = validacao.menor(numeroInicialInformado, 501);
 
-                // Validação do número inicial e entrada do número final para o cálculo de pares e ímpares
                 if (numeroIniValidado1 && numeroIniValidado2 && numeroIniValidado3 && numeroIniValidado4) {
                     entradaDeDados.question("Digite o Número Final (100 até 1000): ", function (numeroFinal) {
                         let numeroFimInformado = numeroFinal.trim();
@@ -315,7 +295,6 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
                         let numeroFimValidado4 = validacao.menor(numeroFimInformado, 1001);
                         let numeroFimValidado5 = validacao.igual(numeroFimInformado, numeroInicialInformado);
 
-                        // Validação do número final e entrada do tipo de separação para o cálculo de pares e ímpares
                         if (numeroFimValidado1 && numeroFimValidado2 && numeroFimValidado3 && numeroFimValidado4 && !numeroFimValidado5) {
                             entradaDeDados.question("\nVocê deseja calcular PARES, ÍMPARES ou AMBOS? ", function (tipoSeparacao) {
                                 let tipo = tipoSeparacao.trim();
