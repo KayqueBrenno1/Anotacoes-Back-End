@@ -21,7 +21,7 @@ let validacao = require("./modulo/validacao.js");
 
 // Entrada do tipo de calculadora que o usuário deseja utilizar
 entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, Tabuada, Fatorial ou Par/Ímpar): ", function (tipoCalculadora) {
-    let calculadoraInformada  = tipoCalculadora.trim().toUpperCase();
+    let calculadoraInformada  = tipoCalculadora;
     let validacaoCalculadora1 = validacao.validarEntradaDeString(calculadoraInformada);
     let validacaoCalculadora2 = validacao.validarTipoCalculadora(calculadoraInformada);
 

@@ -28,7 +28,7 @@ const validarEntradaDeNumber = function (numero) {
 
 // Função que retorna uma validação do tipo de calculadora escolhida
 const validarTipoCalculadora = function(tipoCalculadora){
-    let calculadoraInformada = String(tipoCalculadora).toUpperCase();
+    let calculadoraInformada = String(tipoCalculadora).trim().toUpperCase();
     let calculadora = [
         "PAR/IMPAR", "IMPAR/PAR", "IMPAR OU PAR", "PAR OU IMPAR", "IMPAR E PAR", "PAR E IMPAR", "IMPAR", "PAR",
         "PAR/ÍMPAR", "ÍMPAR/PAR", "ÍMPAR OU PAR", "PAR OU ÍMPAR", "ÍMPAR E PAR", "PAR E ÍMPAR", "ÍMPAR",
