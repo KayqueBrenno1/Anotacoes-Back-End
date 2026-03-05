@@ -17,10 +17,10 @@ const validarEntradaDeString = function (string) {
 };
 
 // Função que retorna um boolean com a validação simples de entrada de dados do tipo number
-const validarEntradaDeNumber = function (number) {
-    let numberInformado = Number(number);
+const validarEntradaDeNumber = function (numero) {
+    let numeroInformado = Number(numero);
 
-    if (numberInformado.trim() === "" || isNaN(numberInformado))
+    if (numeroInformado === "" || isNaN(numeroInformado))
         return false;
     else
         return true;
@@ -90,9 +90,9 @@ const validarTamanhoNota = function (nota) {
 
 // Função que retorna a validação específica para a entrada de cálculos da tabuada
 const validarNumeroParaTabuada = function (numero) {
-    let numeroInf = Number(numero);
+    let numeroInformado = Number(numero);
 
-    if (numeroInf < 2 || numeroInf > 100)
+    if (numeroInformado < 2 || numeroInformado > 100)
         return false;
     else
         return true;

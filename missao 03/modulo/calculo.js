@@ -57,7 +57,7 @@ const calcularFatorial = function (numero) {
     let i = 1;
 
     while(i <= numero){
-        fatorial *= 1;
+        fatorial *= i;
         i++;
     };
 
@@ -77,6 +77,8 @@ const calcularImpares = function (numeroInicial, numeroFinal) {
             lista += i + "\n"; // adiciona o número na lista
             cont++; // aumenta o contador
         };
+
+        i++;
     };
 
     return lista + "|" + cont;
@@ -95,6 +97,8 @@ const calcularPares = function (numeroInicial, numeroFinal) {
             lista += i + "\n"; // adiciona o número na lista
             cont++; // aumenta o contador
         };
+
+        i++;
     };
 
     return lista + "|" + cont;

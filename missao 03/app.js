@@ -143,7 +143,7 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
                                                                                                 console.log(`\n${sexoAluno} ${nomeAluno} foi ${situacao} na disciplina ${disciplina}.`);
                                                                                                 console.log(`Curso: ${nomeCurso}`);
                                                                                                 console.log(`${sexoProfessor}: ${nomeProfessor}`);
-                                                                                                console.log(`Notas: ${nota1Informada}, ${nota2Informada}, ${nota3Informada} e ${nota4Informada}.`);
+                                                                                                console.log(`Notas: ${nota1}, ${nota2}, ${nota3} e ${nota4}.`);
                                                                                                 console.log(`Média final: ${mediaFinal}`);
                                                                                                 entradaDeDados.close();
 
@@ -280,73 +280,73 @@ entradaDeDados.question("Qual calculadora você deseja utilizar? (IMC, Média, T
         } else if (calculadora === "FATORIAL") {
             // Entrada do número para o cálculo do fatorial
             entradaDeDados.question("\nDigite um número inteiro maior que 1 para calcular o fatorial: ", function (numeroFatorial) {
-                let numeroFatInformado  = numeroFatorial.trim().replace(/!/g, "");
+                let numeroFatInformado = numeroFatorial.trim().replaceAll("!", "");
                 let numeroFatorialVal1 = validacao.validarEntradaDeNumber(numeroFatInformado);
                 let numeroFatorialVal2 = validacao.validarNumeroInteiro(numeroFatInformado);
-                let numeroFatorialVal3 = validacao.serMaior(numeroFatInformado, 1);
+                let numeroFatorialVal3 = validacao.maior(numeroFatInformado, 1);
 
                 // Validação do número para o cálculo do fatorial
                 if (numeroFatorialVal1 && numeroFatorialVal2 && numeroFatorialVal3) {
-                    let resultadoFat = calculos.calcularFatorial(numeroFatInformado)
-                    let expressao    = formatacao.formatarExpressaoFatorial(numeroFatInformado)
+                    let resultadoFat = calculos.calcularFatorial(numeroFatInformado);
+                    let expressao = formatacao.formatarExpressaoFatorial(numeroFatInformado);
 
-                    console.log(`\nFatorial de ${numeroFatInformado} é ${expressao} = ${resultadoFat}`)
+                    console.log(`\nFatorial de ${numeroFatInformado} é ${expressao} = ${resultadoFat}`);
                 } else {
-                    console.log("\nDigite apenas números válidos! (maior que 1 e inteiro)")
-                }
-                entradaDeDados.close()
-            })
+                    console.log("\nDigite apenas números maior que 1 e números inteiros");
+                };
+                entradaDeDados.close();
+            });
         } else {
             // Entrada do número inicial para o cálculo de pares e ímpares
             entradaDeDados.question("\nDigite o Número Inicial (0 até 500): ", function (numeroInicial) {
-                let numeroIniInf  = numeroInicial.trim()
-                let numeroIniVal1 = validacao.validarEntradaDeNumber(numeroIniInf)
-                let numeroIniVal2 = validacao.validarNumeroInteiro(numeroIniInf)
-                let numeroIniVal3 = validacao.serMaior(numeroIniInf, -1)
-                let numeroIniVal4 = validacao.serMenor(numeroIniInf, 501)
+                let numeroInicialInformado = numeroInicial.trim();
+                let numeroIniValidado1 = validacao.validarEntradaDeNumber(numeroInicialInformado);
+                let numeroIniValidado2 = validacao.validarNumeroInteiro(numeroInicialInformado);
+                let numeroIniValidado3 = validacao.maior(numeroInicialInformado, -1);
+                let numeroIniValidado4 = validacao.menor(numeroInicialInformado, 501);
 
                 // Validação do número inicial e entrada do número final para o cálculo de pares e ímpares
-                if (numeroIniVal1 && numeroIniVal2 && numeroIniVal3 && numeroIniVal4) {
+                if (numeroIniValidado1 && numeroIniValidado2 && numeroIniValidado3 && numeroIniValidado4) {
                     entradaDeDados.question("Digite o Número Final (100 até 1000): ", function (numeroFinal) {
-                        let numeroFinInf  = numeroFinal.trim()
-                        let numeroFinVal1 = validacao.validarEntradaDeNumber(numeroFinInf)
-                        let numeroFinVal2 = validacao.validarNumeroInteiro(numeroFinInf)
-                        let numeroFinVal3 = validacao.serMaior(numeroFinInf, 99)
-                        let numeroFinVal4 = validacao.serMenor(numeroFinInf, 1001)
-                        let numeroFinVal5 = validacao.serIgual(numeroFinInf, numeroIniInf)
+                        let numeroFimInformado = numeroFinal.trim();
+                        let numeroFimValidado1 = validacao.validarEntradaDeNumber(numeroFimInformado);
+                        let numeroFimValidado2 = validacao.validarNumeroInteiro(numeroFimInformado);
+                        let numeroFimValidado3 = validacao.maior(numeroFimInformado, 99);
+                        let numeroFimValidado4 = validacao.menor(numeroFimInformado, 1001);
+                        let numeroFimValidado5 = validacao.igual(numeroFimInformado, numeroInicialInformado);
 
                         // Validação do número final e entrada do tipo de separação para o cálculo de pares e ímpares
-                        if (numeroFinVal1 && numeroFinVal2 && numeroFinVal3 && numeroFinVal4 && numeroFinVal5) {
-                            entradaDeDados.question("\nVocê deseja calcular (PARES, ÍMPARES ou AMBOS)? ", function (tipoSeparacao) {
-                                let tipo    = tipoSeparacao.trim()
-                                let tipoVal = validacao.validarEntradaDeString(tipo)
+                        if (numeroFimValidado1 && numeroFimValidado2 && numeroFimValidado3 && numeroFimValidado4 && !numeroFimValidado5) {
+                            entradaDeDados.question("\nVocê deseja calcular PARES, ÍMPARES ou AMBOS? ", function (tipoSeparacao) {
+                                let tipo = tipoSeparacao.trim();
+                                let tipoVal = validacao.validarEntradaDeString(tipo);
 
                                 if (tipoVal) {
-                                    let retornoPar   = calculos.calcularPares(numeroIniInf, numeroFinInf)
-                                    let retornoImp   = calculos.calcularImpares(numeroIniInf, numeroFinInf)
-                                    let textoPares   = formatacao.formatarListaParesImpares("Lista de números Pares", retornoPar)
-                                    let textoImpares = formatacao.formatarListaParesImpares("Lista de números Ímpares", retornoImp)
-                                    let textoFinal   = formatacao.formatarSaidaParImpar(tipo, textoPares, textoImpares)
+                                    let retornoPar = calculos.calcularPares(numeroInicialInformado, numeroFimInformado);
+                                    let retornoImp = calculos.calcularImpares(numeroInicialInformado, numeroFimInformado);
+                                    let textoPares = formatacao.formatarListaNumerosParesImpares("Lista de números Pares", retornoPar);
+                                    let textoImpares = formatacao.formatarListaNumerosParesImpares("Lista de números Ímpares", retornoImp);
+                                    let textoFinal = formatacao.formatarSaidaNumerosParImpar(tipo, textoPares, textoImpares);
 
-                                    console.log(textoFinal)
+                                    console.log(textoFinal);
                                 } else {
-                                    console.log("\nProibido números e/ou vazio!")
-                                }
-                                entradaDeDados.close()
-                            })
+                                    console.log("\nProibido números ou campos vazios!");
+                                };
+                                entradaDeDados.close();
+                            });
                         } else {
-                            console.log("\nNúmero final inválido! Verifique os intervalos e regras.")
-                            entradaDeDados.close()
-                        }
-                    })
+                            console.log("\nNúmero final inválido! Verifique se preencheu corretamente.");
+                            entradaDeDados.close();
+                        };
+                    });
                 } else {
-                    console.log("\nNúmero inicial inválido! Verifique os intervalos e regras.")
-                    entradaDeDados.close()
-                }
-            })
-        }
+                    console.log("\nNúmero inicial inválido! Verifique se preencheu corretamente.");
+                    entradaDeDados.close();
+                };
+            });
+        };
     } else {
-        console.log("\nTipo de calculadora inexistente!")
-        entradaDeDados.close()
-    }
-})
+        console.log("\nTipo de calculadora inexistente!");
+        entradaDeDados.close();
+    };
+});

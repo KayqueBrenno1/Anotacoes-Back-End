@@ -9,15 +9,15 @@ const { multiplicar } = require("./calculo");
 
 //Função que reduz as possíveis entradas do tipo de calculadora para uma só
 const formatarTipoDeCalculadora = function (tipoCalculadora) {
-    let tipoInformada = String(tipo.toUpperCase());
-    let calculadora;
+    let tipoInformada = String(tipoCalculadora.toUpperCase());
+    let calculadora = "";
 
     if (tipoInformada == "IMC")
         calculadora = "IMC";
     else if (tipoInformada == "MÉDIA" || tipoInformada == "MEDIA")
         calculadora = "MÉDIA";
     else if (tipoInformada == "TABUADA")
-        calculadora = "CALCULADORA";
+        calculadora = "TABUADA";
     else if (tipoInformada == "FATORIAL")
         calculadora = "FATORIAL";
     else
@@ -50,7 +50,7 @@ const formatarClassificacaoImc = function (valorImc) {
 //Função que define o gênero do lecionador
 const formatarGeneroProfessor = function (genero) {
     let generoInformado = genero.trim().toUpperCase();
-    let sexo;
+    let sexo = "";
 
     if (generoInformado === "MASCULINO" || generoInformado === "HOMEM")
         sexo = "Professor";
@@ -66,7 +66,7 @@ const formatarGeneroProfessor = function (genero) {
 //Função que define o gênero do aluno
 const formatarGeneroAluno = function (genero) {
     let generoInformado = genero.trim().toUpperCase();
-    let sexo;
+    let sexo = "";
 
     if (generoInformado === "MASCULINO" || generoInformado === "HOMEM")
         sexo = "O aluno";
@@ -82,7 +82,7 @@ const formatarGeneroAluno = function (genero) {
 //Função que classifica a média do aluno
 const formatarMediaFinal = function (valorMedia) {
     let media = Number(valorMedia);
-    let situacao;
+    let situacao = "";
 
     if (media >= 70)
         situacao = "aprovado";
@@ -98,7 +98,7 @@ const formatarMediaFinal = function (valorMedia) {
 //Função que classifica a média recuperativa do aluno
 const formatarMediaRecuperativa = function (valorMedia) {
     let media = Number(valorMedia);
-    let situacao;
+    let situacao = "";
 
     if (media >= 60)
         situacao = "aprovado";
@@ -114,11 +114,11 @@ const formatarTabuada = function (tabuadaInicial, tabuadaFinal, contador, contad
     let tabFinal = Number(tabuadaFinal);
     let contInicial = Number(contador);
     let contFinal = Number(contadorFinal);
-    let resultado;
+    let resultado = "";
 
     let tbI = tabInicial;
     while(tbI <= tabFinal){
-        resultado += `\nTabuada do [${tbI}]\n`;
+        resultado += `\nTabuada do (${tbI})\n`;
 
         let cbI = contInicial;
 
@@ -136,7 +136,7 @@ const formatarTabuada = function (tabuadaInicial, tabuadaFinal, contador, contad
 // Função que formata a expressão fatorial
 const formatarExpressaoFatorial = function (numero) {
     let numeroFatorial = Number(numero);
-    let expressao;
+    let expressao = "";
 
     let i = numeroFatorial;
     while(i >= 1){
@@ -169,7 +169,7 @@ const formatarSaidaNumerosParImpar = function (tipo, par, impar) {
     let tipoSaida = String(tipo.trim().toUpperCase());
     let textoPares = String(par);
     let textoImpares = String(impar);
-    let texto;
+    let texto = "";
     
     if (tipoSaida === "PARES") {
         texto += `${textoPares}`;
