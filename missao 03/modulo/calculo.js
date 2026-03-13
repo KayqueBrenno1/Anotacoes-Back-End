@@ -10,12 +10,12 @@ const somar = (numero1, numero2) => Number(numero1) + Number(numero2);
 const multiplicar = (numero1, numero2) => Number(numero1) * Number(numero2);
 const dividir = (numero1, numero2) => Number(numero1) / Number(numero2);
 //Transforma o numero em potencia
-const elevar = (base, expoente)   => Number(base) ** Number(expoente);
+const elevar = (base, expoente) => Number(base) ** Number(expoente);
 
 //Função que calcula o IMC
 const calcularImc = function (peso, altura, medicao) {
-    let pesoInformado    = Number(peso.replace(",", "."));
-    let alturaInformada  = Number(altura.replace(",", "."));
+    let pesoInformado = Number(peso.replace(",", "."));
+    let alturaInformada = Number(altura.replace(",", "."));
     let medicaoInformada = medicao.toUpperCase();
     let imc;
 
@@ -23,7 +23,7 @@ const calcularImc = function (peso, altura, medicao) {
         alturaInformada = dividir(alturaInformada, 100);
 
     imc = Number((dividir(pesoInformado, elevar(alturaInformada, 2))).toFixed(2));
-    
+
     return imc;
 };
 
@@ -36,7 +36,7 @@ const calcularMedia = function (valor1, valor2, valor3, valor4) {
     let mediaFinal;
 
     mediaFinal = Number((dividir(somar(somar(nota1, nota2), somar(nota3, nota4)), 4)).toFixed(2));
-    
+
     return mediaFinal;
 };
 
@@ -56,7 +56,7 @@ const calcularFatorial = function (numero) {
     let fatorial = 1;
     let i = 1;
 
-    while(i <= numero){
+    while (i <= numero) {
         fatorial *= i;
         i++;
     };
@@ -67,13 +67,13 @@ const calcularFatorial = function (numero) {
 // Função que calcula os números ímpares
 const calcularImpares = function (numeroInicial, numeroFinal) {
     let numInicio = Number(numeroInicial);
-    let numFim    = Number(numeroFinal);
-    let lista  = "";
-    let cont   = 0;
+    let numFim = Number(numeroFinal);
+    let lista = "";
+    let cont = 0;
     let i = numInicio;
 
-    while(i <= numFim){
-        if(i % 2 !== 0){
+    while (i <= numFim) {
+        if (i % 2 !== 0) {
             lista += i + "\n"; // adiciona o número na lista
             cont++; // aumenta o contador
         };
@@ -87,13 +87,13 @@ const calcularImpares = function (numeroInicial, numeroFinal) {
 // Função que calcula os números pares
 const calcularPares = function (numeroInicial, numeroFinal) {
     let numInicio = Number(numeroInicial);
-    let numFim    = Number(numeroFinal);
-    let lista  = "";
-    let cont   = 0;
+    let numFim = Number(numeroFinal);
+    let lista = "";
+    let cont = 0;
     let i = numInicio;
 
-    while(i <= numFim){
-        if(i % 2 === 0){
+    while (i <= numFim) {
+        if (i % 2 === 0) {
             lista += i + "\n"; // adiciona o número na lista
             cont++; // aumenta o contador
         };
