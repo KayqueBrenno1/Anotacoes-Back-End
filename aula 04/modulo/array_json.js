@@ -262,26 +262,50 @@ const cadastroDeProdutos = function () {
 
 	//Extrai o Produto, Quantidade e Valor
 	produtos.forEach(function (itemProduto) {
-		console.log("\n--------------------------------------------------")
+		console.log("\n--------------------------------------------------");
 		console.log(`Produto: ${itemProduto.nome}`);
 		console.log(`Quantidade: ${itemProduto.quantidade}`);
 		console.log(`Valor: ${itemProduto.valor}`);
 
 		//Extrai a cor
-		console.log("\nCor:")
+		console.log("\nCor:");
 		itemProduto.cor.forEach(function (cores) {
 			console.log(`${cores.cor}`);
 		});
 
 		//Extrai a marca
-		console.log("\nMarca:")
+		console.log("\nMarca:");
 		itemProduto.marca.forEach(function (itemMarca) {
 			console.log(`${itemMarca}`);
 		});
 	});
 
-	//console.log(produtos)
-	//console.table(produtos)
+	//Filtrando produtos pelo nome
+	/* console.log("\nExemplo de como pesquisar um produto pelo nome");
+
+	let nomeProduto = "Monitor";
+
+	produtos.forEach(function(itemProduto){
+		if(String(nomeProduto).toUpperCase() == String(itemProduto.nome).toUpperCase())
+			console.log(itemProduto);
+	}); */
+
+	//Filtrando produto pelo nome
+	console.log("\nExemplo de como pesquisar um produto pela cor");
+
+	let produtoCor = "amarelo"
+
+	produtos.forEach(function(itemCor){
+
+		itemCor.cor.forEach(function(cores){
+
+			if(String(produtoCor).toUpperCase() == String(cores.cor).toUpperCase())
+				console.log(`Produto: ${itemCor.nome} \nCor: ${cores.cor}`);
+		});
+	});
+
+	//console.log(produtos);
+	//console.table(produtos);
 	//console.log(cores[2].cor);
 
 	/* cores.forEach(function (itemCor) {
@@ -291,7 +315,3 @@ const cadastroDeProdutos = function () {
 
 //Exibir dados
 cadastroDeProdutos()
-//manipularDadosJSON()
-
-/* let nome = "João";
-verificarItem(nome); */
