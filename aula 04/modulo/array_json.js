@@ -300,7 +300,7 @@ const cadastroDeProdutos = function () {
 		itemCor.cor.forEach(function(cores){
 
 			if(String(produtoCor).toUpperCase() == String(cores.cor).toUpperCase())
-				console.log(`Produto: ${itemCor.nome} \nCor: ${cores.cor}`);
+				console.log(itemCor);
 		});
 	});
 
