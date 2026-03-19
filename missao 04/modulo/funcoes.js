@@ -7,8 +7,9 @@
 
 const informacoesEstados = require('./estados_cidades.js')
 
+const localizarEstados = informacoesEstados.listaDeEstados.estados
+
 const getListaDeEstados = function(){
-    let localizarEstados = informacoesEstados.listaDeEstados.estados
     let uf = []
     let quantidade
     let lista
@@ -24,7 +25,7 @@ const getListaDeEstados = function(){
 }
 
 const getDadosEstado = function(estado){
-    let localizarEstados = informacoesEstados.listaDeEstados.estados
+    
     let estadoEscolhido = [{
         "uf": localizarEstados,
         "descricao": localizarEstados,
