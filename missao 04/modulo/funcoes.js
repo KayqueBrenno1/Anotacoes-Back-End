@@ -41,18 +41,19 @@ const getDadosEstado = function (siglaEstado) {
 
     return dadosEstado
 }
-
 const getCapitalEstado = function (siglaEstado) {
     let sigla = String(siglaEstado).toUpperCase()
     let dadosEstado = false
 
     localizarEstados.forEach(function (estado) {
         if (estado.sigla == sigla) {
-            return dadosEstado = {
+            dadosEstado = {
                 "uf": estado.sigla, "descricao": estado.nome, "capital": estado.capital
             }
         }
     })
+
+    return dadosEstado
 }
 
 const getEstadosRegiao = function (regiaoEscolhida) {
