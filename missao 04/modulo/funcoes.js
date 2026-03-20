@@ -28,7 +28,7 @@ const getDadosEstado = function (siglaEstado) {
     let sigla = String(siglaEstado).toUpperCase()
     let dadosEstado = false
 
-    for(let estado of localizarEstados){
+    for (let estado of localizarEstados) {
         if (estado.sigla == sigla) {
             dadosEstado = {
                 "uf": estado.sigla,
@@ -41,6 +41,7 @@ const getDadosEstado = function (siglaEstado) {
 
     return dadosEstado
 }
+
 const getCapitalEstado = function (siglaEstado) {
     let sigla = String(siglaEstado).toUpperCase()
     let dadosEstado = false
@@ -63,27 +64,27 @@ const getEstadosRegiao = function (regiaoEscolhida) {
         "estados": []
     }
 
-    for(let estado of localizarEstados){
-        if(regiao == String(estado.regiao).toUpperCase()){
+    for (let estado of localizarEstados) {
+        if (regiao == String(estado.regiao).toUpperCase()) {
             dadosRegiao.estados.push({
                 "uf": estado.sigla, "descricao": estado.nome
             })
         }
     }
-    
-    if(dadosRegiao.estados.length === 0)
+
+    if (dadosRegiao.estados.length === 0)
         return false
-    
+
     return dadosRegiao
 }
 
-const getCapitalPais = function(){
+const getCapitalPais = function () {
     let capitaisPais = {
         "capitais": []
     }
 
-    localizarEstados.forEach(function(pegarCapitais){
-        if(pegarCapitais.capital_pais){
+    localizarEstados.forEach(function (pegarCapitais) {
+        if (pegarCapitais.capital_pais) {
             capitaisPais.capitais.push({
                 "capital_atual": pegarCapitais.capital_pais.capital,
                 "uf": pegarCapitais.sigla,
@@ -99,14 +100,14 @@ const getCapitalPais = function(){
     return capitaisPais
 }
 
-const getCidades = function(cidadesSigla){
+const getCidades = function (cidadesSigla) {
     let siglaInf = String(cidadesSigla).toUpperCase()
     let infoCidades
     let cidades = []
 
-    for(let sigla of localizarEstados){
-        if(siglaInf == String(sigla.sigla).toUpperCase()){
-            sigla.cidades.forEach(function(todasCidades){
+    for (let sigla of localizarEstados) {
+        if (siglaInf == String(sigla.sigla).toUpperCase()) {
+            sigla.cidades.forEach(function (todasCidades) {
                 cidades.push(todasCidades.nome)
 
                 infoCidades = {
@@ -115,11 +116,11 @@ const getCidades = function(cidadesSigla){
                     "quantidade_cidades": sigla.cidades.length,
                     "cidades": cidades
                 }
-            })   
+            })
         }
     }
 
-    if(cidades.length === 0)
+    if (cidades.length === 0)
         return false
 
     return infoCidades
