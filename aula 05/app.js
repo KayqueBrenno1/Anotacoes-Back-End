@@ -34,25 +34,53 @@ app.use(cors(corsOptions))
 //Import do arquivo de funções
 const estadosCidades = require('./modulo/funcoes.js')
 
-app.get('/v1/senai/rotas', function (request, response) {
-    response.json([
-        "/v1/senai/estados",
-        "/v1/senai/dados/estado/:uf",
-        "/v1/senai/capital/estado/:uf",
-        "/v1/senai/regiao/estado/:regiao",
-        "/v1/senai/capital/pais",
-        "/v1/senai/cidades/estado/:uf"
-    ])
-    response.status(200) //Requisição bem sucedida!!
+//                     ENDPOINTS
+//Lista todas as rotas
+app.get('/v1/senai/help', function (request, response) {
+    let docAPI = {
+        "api-description": "API para manipular dados de Estados e Cidades",
+        "date": "2026-04-02",
+        "development": "Kayque Brenno Ferreira Almeida",
+        "version": 1.0,
+        "endpoints": [
+            {
+                "router1": "/v1/senai/estados",
+                "description": "Retorna a lista de todos os estados"
+            },
+            {
+                "router2": "/v1/senai/dados/estado/sp",
+                "description": "Retorna dados de um estado filtrando pela sigla"
+            },
+            {
+                "router3": "/v1/senai/capital/estado/sp",
+                "description": "Retorna dados da capital de um estado filtrando pela sigla"
+            },
+            {
+                "router4": "/v1/senai/regiao/estado/sul",
+                "description": "Retorna os estados filtrando pela região"
+            },
+            {
+                "router5": "/v1/senai/capital/pais/brasil",
+                "description": "Retorna os estados que foram capitais do Brasil"
+            },
+            {
+                "router6": "/v1/senai/cidades/estado/sp",
+                "description": "Retorna as cidades filtrando pela sigla do estado"
+            }
+        ]
+    }
+    response.json(docAPI)
+    response.status(200)
 })
 
-//Endpoint para listar os estados
+//Retorna uma lista de estados do Brasil
 app.get('/v1/senai/estados', function (request, response) {
     let estados = estadosCidades.getListaDeEstados()
     response.json(estados)
     response.status(200) //Requisição bem sucedida!!
 })
 
+//Retorna dados de um estado filtrando pela sigla do estado
 app.get('/v1/senai/dados/estado/:uf', function (request, response) {
     let uf = request.params.uf
     let dadosEstados = estadosCidades.getDadosEstado(uf)
@@ -61,11 +89,12 @@ app.get('/v1/senai/dados/estado/:uf', function (request, response) {
         response.json(dadosEstados)
         response.status(200)
     } else {
-        response.json({ "message": "Nenhum estado foi encontrado" })
         response.status(404)
+        response.json({ "message": "Nenhum estado foi encontrado" })
     }
 })
 
+//Retorna dados da capital filtrando pela sigla do estado
 app.get('/v1/senai/capital/estado/:uf', function (request, response) {
     let uf = request.params.uf
     let capitalEstado = estadosCidades.getCapitalEstado(uf)
@@ -74,11 +103,12 @@ app.get('/v1/senai/capital/estado/:uf', function (request, response) {
         response.json(capitalEstado)
         response.status(200)
     } else {
-        response.json({ "message": "Nenhum estado desta capital foi encontrado" })
         response.status(404)
+        response.json({ "message": "Nenhum estado desta capital foi encontrado" })
     }
 })
 
+//Retorna os estados filtrando pela região
 app.get('/v1/senai/regiao/estado/:regiao', function (request, response) {
     let regiao = request.params.regiao
     let regiaoEstado = estadosCidades.getEstadosRegiao(regiao)
@@ -87,17 +117,19 @@ app.get('/v1/senai/regiao/estado/:regiao', function (request, response) {
         response.json(regiaoEstado)
         response.status(200)
     } else {
-        response.json({ "message": "Nenhum estado desta região foi encontrado" })
         response.status(404)
+        response.json({ "message": "Nenhum estado desta região foi encontrado" })
     }
 })
 
-app.get('/v1/senai/capital/pais', function (request, response) {
+//Retorna os estados que foram capital do Brasil
+app.get('/v1/senai/capital/pais/brasil', function (request, response) {
     let capitalPais = estadosCidades.getCapitalPais()
     response.json(capitalPais)
     response.status(200)
 })
 
+//Retorna as cidades filtrando pela sigla do estado
 app.get('/v1/senai/cidades/estado/:uf', function (request, response) {
     let uf = request.params.uf
     let cidadesEstado = estadosCidades.getCidades(uf)
@@ -106,8 +138,8 @@ app.get('/v1/senai/cidades/estado/:uf', function (request, response) {
         response.json(cidadesEstado)
         response.status(200)
     } else {
-        response.json({ "message": "Nenhuma cidade deste estado foi encontrada" })
         response.status(404)
+        response.json({ "message": "Nenhuma cidade deste estado foi encontrada" })
     }
 })
 
