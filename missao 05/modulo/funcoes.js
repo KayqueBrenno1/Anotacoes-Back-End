@@ -33,3 +33,27 @@ const getDadosUsuario = function (number) {
 
     return dadosUsuario
 }
+
+const getDadosContatos = function (number) {
+    let numberTel = String(number)
+    let dadosContatos = {
+        "contatos": []
+    }
+
+    for (let dados of users) {
+        if (numberTel == dados.number) {
+            dados.contacts.forEach(function (infContato) {
+                dadosContatos.contatos.push({
+                    "name": infContato.name,
+                    "image": infContato.image,
+                    "description": infContato.description
+                })
+            })
+        }
+    }
+
+    if(dadosContatos.contatos.length == 0)
+        return false
+
+    return dadosContatos
+}
