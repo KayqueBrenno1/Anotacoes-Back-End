@@ -37,8 +37,6 @@ const getDadosUsuario = function (number) {
     return dadosUsuario
 }
 
-console.log(getDadosUsuario(11987876567))
-
 const getDadosContatos = function (number) {
     let numberTel = String(number)
     let dadosContatos = {
