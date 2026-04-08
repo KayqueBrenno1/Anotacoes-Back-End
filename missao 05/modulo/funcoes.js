@@ -15,7 +15,7 @@ const getListaTodosUsuario = function () {
 
 const getDadosUsuario = function (number) {
     let numberTel = String(number)
-    let dadosUsuario = false
+    let dadosUsuario = {}
 
     for (let infUser of users) {
         if (infUser.number == numberTel) {
@@ -31,8 +31,13 @@ const getDadosUsuario = function (number) {
         }
     }
 
+    if(Object.keys(dadosUsuario) == 0)
+        return false
+
     return dadosUsuario
 }
+
+console.log(getDadosUsuario(11987876567))
 
 const getDadosContatos = function (number) {
     let numberTel = String(number)
@@ -56,4 +61,20 @@ const getDadosContatos = function (number) {
         return false
 
     return dadosContatos
+}
+
+const getTodasMensagensUsuario = function(number){
+    let numberTel = String(number)
+    let msgUsuario = {}
+
+    for (let dados of users) {
+        if (numberTel == dados.number) {
+            msgUsuario.contatos = dados.contacts
+        }
+    }
+
+    if(Object.keys(msgUsuario) == 0)
+        return false
+
+    return msgUsuario
 }
