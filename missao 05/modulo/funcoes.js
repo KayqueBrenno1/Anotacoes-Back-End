@@ -76,3 +76,27 @@ const getTodasMensagensUsuario = function(number){
 
     return msgUsuario
 }
+
+const getConversaContato = function(usuario, contato){
+    let numberTel = String(usuario)
+    let nomeContato = String(contato)
+    let conversa = {
+        "conversa": []
+    }
+
+    for(let numberUser of users){
+        if(numberTel == numberUser.number){
+            for(let pessoaConversa of numberUser.contacts){
+                if(nomeContato == pessoaConversa.name){
+                    conversa.conversa.push({
+                        "numero_usuario": numberUser.number,
+                        "nome_contato": pessoaConversa.name,
+                        "mensagens": pessoaConversa.messages
+                    })
+                }
+            }
+        }
+    }
+
+    return conversa
+}
