@@ -31,7 +31,7 @@ const getDadosUsuario = function (number) {
         }
     }
 
-    if(Object.keys(dadosUsuario) == 0)
+    if (Object.keys(dadosUsuario).length == 0)
         return false
 
     return dadosUsuario
@@ -55,13 +55,13 @@ const getDadosContatos = function (number) {
         }
     }
 
-    if(dadosContatos.contatos.length == 0)
+    if (dadosContatos.contatos.length == 0)
         return false
 
     return dadosContatos
 }
 
-const getTodasMensagensUsuario = function(number){
+const getTodasMensagensUsuario = function (number) {
     let numberTel = String(number)
     let msgUsuario = {}
 
@@ -71,32 +71,32 @@ const getTodasMensagensUsuario = function(number){
         }
     }
 
-    if(Object.keys(msgUsuario) == 0)
+    if (Object.keys(msgUsuario).length == 0)
         return false
 
     return msgUsuario
 }
 
-const getConversaContato = function(usuario, contato){
-    let numberTel = String(usuario)
-    let nomeContato = String(contato)
-    let conversa = {
-        "conversa": []
-    }
+const getConversaContato = function (numberUsuario) {
+    let numberTel = String(numberUsuario)
+    let conversa = []
 
-    for(let numberUser of users){
-        if(numberTel == numberUser.number){
-            for(let pessoaConversa of numberUser.contacts){
-                if(nomeContato == pessoaConversa.name){
-                    conversa.conversa.push({
-                        "numero_usuario": numberUser.number,
-                        "nome_contato": pessoaConversa.name,
-                        "mensagens": pessoaConversa.messages
-                    })
-                }
-            }
+    for (let user of users) {
+        if (numberTel == user.number) {
+            user.contacts.forEach(contato => {
+                conversa.push({
+                    "numero_usuario": user.number,
+                    "nome_contato": contato.name,
+                    "mensagens": contato.messages
+                })
+            })
         }
     }
 
-    return conversa
+    if (conversa.length == 0)
+        return false
+
+    return { conversa }
 }
+
+console.log(getConversaContato(11987876567))
