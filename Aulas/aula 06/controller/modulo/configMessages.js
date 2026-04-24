@@ -40,11 +40,22 @@ const ERROR_INTERNAL_SERVER_CONTROLLER = {
     message: 'Não foi possível processar a requisição devido a um erro interno no servidor [CONTROLLER]'
 }
 
+const ERROR_NOT_FOUND = {
+    status: false,
+    status_code: 404,
+    message: 'Não foram encontrados dados para retorno'
+}
+
 //Mensagens de SUCESSO do projeto de filmes
 const SUCCESS_CREATED_ITEM = {
     status: true,
     status_code: 201,
     message: 'Item inserido com sucesso!'
+}
+
+const SUCCESS_RESPONSE = {
+    status: true,
+    status_code: 200
 }
 
 module.exports = {
@@ -53,5 +64,7 @@ module.exports = {
     SUCCESS_CREATED_ITEM,
     ERROR_INTERNAL_SERVER_MODEL,
     ERROR_CONTENT_TYPE,
-    ERROR_INTERNAL_SERVER_CONTROLLER
+    ERROR_INTERNAL_SERVER_CONTROLLER,
+    ERROR_NOT_FOUND,
+    SUCCESS_RESPONSE
 }
