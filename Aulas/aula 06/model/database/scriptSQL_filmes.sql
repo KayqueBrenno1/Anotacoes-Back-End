@@ -46,6 +46,17 @@ insert into tbl_filme (
     '3'
 );
 
+select * from tbl_filme;
 select * from tbl_filme order by id desc;
 
-select * from tbl_filme where id = 1
+select * from tbl_filme where id = 8;
+
+update tbl_filme set
+	nome = 'Filme - teste de atualização',
+    sinopse = 'Testando a atualização do filme',
+    capa = 'teste',
+    data_lancamento = '2026-04-29',
+    duracao = '02:30:00',
+    valor = '10',
+    avaliacao = '2'
+where id = 8;
