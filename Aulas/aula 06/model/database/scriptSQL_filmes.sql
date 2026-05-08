@@ -49,7 +49,7 @@ insert into tbl_filme (
 select * from tbl_filme;
 select * from tbl_filme order by id desc;
 
-select * from tbl_filme where id = 8;
+select * from tbl_filme where id = 6;
 
 update tbl_filme set
 	nome = 'Filme - teste de atualização',
@@ -60,3 +60,26 @@ update tbl_filme set
     valor = '10',
     avaliacao = '2'
 where id = 8;
+
+delete from tbl_filme where id = 7;
+
+#Tabela Classificação
+create table tbl_classificacao (
+	id int not null auto_increment primary key,
+    classificacao varchar(6) not null
+);
+
+#Tabela Sexo
+create table tbl_sexo (
+	id int not null auto_increment primary key
+);
+
+#Tabela Nacionalidade
+create table tbl_nacionalidade (
+	id int not null auto_increment primary key
+);
+
+#Tabela Genero
+create table tbl_genero (
+	id int not null auto_increment primary key
+);
