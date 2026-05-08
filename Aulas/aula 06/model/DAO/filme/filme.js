@@ -38,9 +38,9 @@ const insertFilme = async function (filme) {
 
         //Encaminha para o banco de dados o scriptSQL
         let result = await knexConection.raw(sql)
-
+        
         if (result)
-            return true
+            return result[0].insertId
         else
             return false
     } catch (error) {
