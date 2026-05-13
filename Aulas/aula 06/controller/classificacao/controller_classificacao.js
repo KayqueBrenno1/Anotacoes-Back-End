@@ -12,7 +12,6 @@ const classificacaoDAO = require('../../model/DAO/classificacao/classificacao.js
 
 //Função para validar os dados de cadastro da classificação
 const validarDados = async function (classificacao) {
-    //Cria uma cópia dos JSON do arquivo de configuração de mensagens
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 
     if (classificacao.classificacao == undefined || classificacao.classificacao == '' ||
@@ -71,22 +70,17 @@ const atualizarClassificacao = async function (classificacao, id, contentType) {
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 
     try {
-        //Validação para verificar se o conteúdo do Body é um JSON
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
-            //Chama a função para buscar o filme e validar se o ID está correto
-            //Se o ID existe no BD e se o Filme existe
-            let resultBuscarFilme = await buscarFilme(id)
 
-            if (resultBuscarFilme.status) {
-                //Chama a função para validar os dados para alteração do filme (Body)
+            let resultBuscarClassificacao = await buscarClassificacao(id)
+
+            if (resultBuscarClassificacao.status) {
                 let validar = await validarDados(classificacao)
 
                 if (!validar) {
-                    //Adiciona um atributo ID no JSON de filme, para enviar ao DAO um único objeto
                     classificacao.id = Number(id)
 
-                    //Chama a função para atualizar o filme no Banco de Dados
-                    let result = await filmeDAO.updateFilme(await tratarDados(classificacao))
+                    let result = await classificacaoDAO.updateClassificacao(await tratarDados(classificacao))
 
                     if (result) {
                         customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_UPDATE_ITEM.status
@@ -102,7 +96,7 @@ const atualizarClassificacao = async function (classificacao, id, contentType) {
                     return validar //400 de validação dos campos do banco de dados
                 }
             } else {
-                return resultBuscarFilme //400 (ID inválido) ou 404 (não encontrado) ou 500
+                return resultBuscarClassificacao //400 (ID inválido) ou 404 (não encontrado) ou 500
             }
         } else {
             return customMessages.ERROR_CONTENT_TYPE //415
@@ -140,7 +134,7 @@ const listarClassificacao = async function () {
 }
 
 //Função para retornar uma Classificação filtrando pelo id
-const buscarClassificação = async function (id) {
+const buscarClassificacao = async function (id) {
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 
     try {
@@ -170,16 +164,14 @@ const buscarClassificação = async function (id) {
 }
 
 //Função para excluir uma classificação
-const excluirClassificação = async function (id) {
+const excluirClassificacao = async function (id) {
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 
     try {
-        //Chama a função de buscar filme para validar se o filme existe
-        let resultBuscarFilme = await buscarFilme(id)
+        let resultBuscarClassificacao = await buscarClassificacao(id)
 
-        if (resultBuscarFilme.status) {
-            //Chama a função do DAO para excluir um filme
-            let result = await filmeDAO.deleteFilme(id)
+        if (resultBuscarClassificacao.status) {
+            let result = await classificacaoDAO.deleteClassificacao(id)
 
             if (result) {
                 return customMessages.SUCCESS_DELETE_ITEM //204 (delete)
@@ -187,7 +179,7 @@ const excluirClassificação = async function (id) {
                 return customMessages.ERROR_INTERNAL_SERVER_MODEL //500 (Model)
             }
         } else {
-            return resultBuscarFilme //400 (ID inválido) ou 404 (não encontrado)
+            return resultBuscarClassificacao //400 (ID inválido) ou 404 (não encontrado)
         }
     } catch (error) {
         return customMessages.ERROR_INTERNAL_SERVER_CONTROLLER //500 (controller)
@@ -197,5 +189,7 @@ const excluirClassificação = async function (id) {
 module.exports = {
     inserirNovaClassificacao,
     listarClassificacao,
-    buscarClassificação
+    buscarClassificacao,
+    atualizarClassificacao,
+    excluirClassificacao
 }

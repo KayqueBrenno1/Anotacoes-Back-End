@@ -1,7 +1,7 @@
 /*************************************************************************************
- * Objetivo: Arquivo responsável pelo CRUD de dados da Classificação no banco de dados
+ * Objetivo: Arquivo responsável pelo CRUD de dados do Sexo no banco de dados
  *          MySQL
- * Data: 08/05/2026
+ * Data: 13/05/2026
  * Autor: Kayque Brenno Ferreira Almeida
  * Versão: 1.0
 **************************************************************************************/
@@ -15,12 +15,14 @@ const knexDataBaseConfig = require('../../database/database_config/knexConfig.js
 //Criar a conexão com o banco de dados MySQL conforme o arquivo de configuração
 const knexConection = knex(knexDataBaseConfig.development)
 
-const insertClassificacao = async function (classificacao) {
+const insertSexo = async function (sexo) {
     try {
-        let sql = `insert into tbl_classificacao (
-            classificacao
+        let sql = `insert into tbl_sexo (
+            sexo,
+            sigla
         ) values (
-            '${classificacao.classificacao}'
+            '${sexo.sexo}',
+            '${sexo.sigla}'
         );`
 
         let result = await knexConection.raw(sql)
@@ -34,11 +36,12 @@ const insertClassificacao = async function (classificacao) {
     }
 }
 
-const updateClassificacao = async function (classificacao) {
+const updateSexo = async function (sexo) {
     try {
-        let sql = `update tbl_classificacao set
-                        classificacao = '${classificacao.classificacao}'
-                    where id = ${classificacao.id};`
+        let sql = `update tbl_sexo set
+                        sexo    = '${sexo.sexo}',
+                        sigla   = '${sexo.sigla}'
+                    where id = ${sexo.id};`
 
         let result = await knexConection.raw(sql)
 
@@ -51,9 +54,9 @@ const updateClassificacao = async function (classificacao) {
     }
 }
 
-const selectAllClassificacao = async function () {
+const selectAllSexo = async function () {
     try {
-        let sql = 'select * from tbl_classificacao order by id desc'
+        let sql = 'select * from tbl_sexo order by id desc'
 
         let result = await knexConection.raw(sql)
 
@@ -67,9 +70,9 @@ const selectAllClassificacao = async function () {
     }
 }
 
-const selectByIdClassificacao = async function (id) {
+const selectByIdSexo = async function (id) {
     try {
-        let sql = `select * from tbl_classificacao where id = ${id}`
+        let sql = `select * from tbl_sexo where id = ${id}`
 
         let result = await knexConection.raw(sql)
 
@@ -83,9 +86,9 @@ const selectByIdClassificacao = async function (id) {
     }
 }
 
-const deleteClassificacao = async function (id) {
+const deleteSexo = async function (id) {
     try {
-        let sql = `delete from tbl_classificacao where id = ${id};`
+        let sql = `delete from tbl_sexo where id = ${id};`
 
         let result = await knexConection.raw(sql)
 
@@ -99,9 +102,9 @@ const deleteClassificacao = async function (id) {
 }
 
 module.exports = {
-    insertClassificacao,
-    updateClassificacao,
-    selectAllClassificacao,
-    selectByIdClassificacao,
-    deleteClassificacao
+    insertSexo,
+    updateSexo,
+    selectAllSexo,
+    selectByIdSexo,
+    deleteSexo
 }

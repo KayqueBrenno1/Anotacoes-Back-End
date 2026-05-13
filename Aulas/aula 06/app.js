@@ -23,6 +23,9 @@ app.use(cors(corsOptions))
 //Import das controllers do projeto
 const controllerFilme = require('./controller/filme/controller_filme.js')
 const controllerClassificacao = require('./controller/classificacao/controller_classificacao.js')
+const controllerSexo = require('./controller/sexo/controller_sexo.js')
+const controllerNacionalidade = require('./controller/nacionalidade/controller_nacionalidade.js')
+const controllerGenero = require('./controller/genero/controller_genero.js')
 
 //                                       ENDPOINTS
 app.post('/v1/senai/locadora/filme', bodyParserJSON, async function (request, response) {
@@ -104,7 +107,168 @@ app.get('/v1/senai/locadora/classificacao', async function (request, response) {
 app.get('/v1/senai/locadora/classificacao/:id', async function (request, response) {
     let id = request.params.id
 
-    let result = await controllerClassificacao.buscarClassificação(id)
+    let result = await controllerClassificacao.buscarClassificacao(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/classificacao/:id', bodyParserJSON, async function (request, response) {
+    let contentType = request.headers['content-type']
+    let id = request.params.id
+    let dados = request.body
+
+    let result = await controllerClassificacao.atualizarClassificacao(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/classificacao/:id', async function (request, response) {
+    let id = request.params.id
+    
+    let result = await controllerClassificacao.excluirClassificacao(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+//                                  ENDPOINTS SEXO
+app.post('/v1/senai/locadora/sexo', bodyParserJSON, async function (request, response) {
+    let dados = request.body
+    let contentType = request.headers['content-type']
+
+    let result = await controllerSexo.inserirNovoSexo(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/sexo', async function (request, response) {
+    let result = await controllerSexo.listarSexo()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/sexo/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerSexo.buscarSexo(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/sexo/:id', bodyParserJSON, async function (request, response) {
+    let dados = request.body
+    let id = request.params.id
+    let contentType = request.headers['content-type']
+
+    let result = await controllerSexo.atualizarSexo(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/sexo/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerSexo.excluirSexo(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+//                                  ENDPOINTS NACIONALIDADE
+app.post('/v1/senai/locadora/nacionalidade', bodyParserJSON, async function (request, response) {
+    let dados = request.body
+    let contentType = request.headers['content-type']
+
+    let result = await controllerNacionalidade.inserirNovaNacionalidade(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/nacionalidade', async function (request, response) {
+    let result = await controllerNacionalidade.listarNacionalidade()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/nacionalidade/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerNacionalidade.buscarNacionalidade(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/nacionalidade/:id', bodyParserJSON, async function (request, response) {
+    let id = request.params.id
+    let dados = request.body
+    let contentType = request.headers['content-type']
+
+    let result = await controllerNacionalidade.atualizarNacionalidade(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/nacionalidade/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerNacionalidade.excluirNacionalidade(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+//                              ENDPOINTS GENERO
+app.post('/v1/senai/locadora/genero', bodyParserJSON, async function (request, response) {
+    let dados = request.body
+    let contentType = request.headers['content-type']
+    
+    let result = await controllerGenero.inserirNovoGenero(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/genero', async function (request, response) {
+    let result = await controllerGenero.listarGenero()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/genero/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerGenero.buscarGenero(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/genero/:id', bodyParserJSON, async function (request, response) {
+    let id = request.params.id
+    let dados = request.body
+    let contentType = request.headers['content-type']
+
+    let result = await controllerGenero.atualizarGenero(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/genero/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerGenero.excluirGenero(id)
 
     response.status(result.status_code)
     response.json(result)
