@@ -71,15 +71,32 @@ create table tbl_classificacao (
 
 #Tabela Sexo
 create table tbl_sexo (
-	id int not null auto_increment primary key
+	id int not null auto_increment primary key,
+    sexo varchar(20) not null,
+    sigla varchar(3) not null
 );
 
 #Tabela Nacionalidade
 create table tbl_nacionalidade (
-	id int not null auto_increment primary key
+	id int not null auto_increment primary key,
+    nacionalidade varchar(90) not null,
+    sigla varchar(4) not null
 );
 
 #Tabela Genero
 create table tbl_genero (
-	id int not null auto_increment primary key
+	id int not null auto_increment primary key,
+    genero varchar(30)
+);
+
+#Tabela Atividade
+create table tbl_atividade (
+	id int not null auto_increment primary key,
+    atividade varchar(40)
+);
+
+#Tabela Foto
+create table tbl_foto (
+	id int not null auto_increment primary key,
+    foto_url varchar(255) not null
 );

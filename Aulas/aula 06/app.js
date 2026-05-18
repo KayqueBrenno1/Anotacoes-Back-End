@@ -26,6 +26,8 @@ const controllerClassificacao = require('./controller/classificacao/controller_c
 const controllerSexo = require('./controller/sexo/controller_sexo.js')
 const controllerNacionalidade = require('./controller/nacionalidade/controller_nacionalidade.js')
 const controllerGenero = require('./controller/genero/controller_genero.js')
+const controllerAtividade = require('./controller/atividade/controller_atividade.js')
+const controllerFoto = require('./controller/foto/controller_foto.js')
 
 //                                       ENDPOINTS
 app.post('/v1/senai/locadora/filme', bodyParserJSON, async function (request, response) {
@@ -227,7 +229,7 @@ app.delete('/v1/senai/locadora/nacionalidade/:id', async function (request, resp
     response.json(result)
 })
 
-//                              ENDPOINTS GENERO
+//                                  ENDPOINTS GENERO
 app.post('/v1/senai/locadora/genero', bodyParserJSON, async function (request, response) {
     let dados = request.body
     let contentType = request.headers['content-type']
@@ -269,6 +271,100 @@ app.delete('/v1/senai/locadora/genero/:id', async function (request, response) {
     let id = request.params.id
 
     let result = await controllerGenero.excluirGenero(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+//                                 ENDPOINTS ATIVIDADE
+app.post('/v1/senai/locadora/atividade', bodyParserJSON, async function (request, response) {
+    let dados = request.body
+    let contentType = request.headers['content-type']
+    
+    let result = await controllerAtividade.inserirNovaAtividade(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/atividade', async function (request, response) {
+    let result = await controllerAtividade.listarAtividade()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/atividade/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerAtividade.buscarAtividade(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/atividade/:id', bodyParserJSON, async function (request, response) {
+    let id = request.params.id
+    let dados = request.body
+    let contentType = request.headers['content-type']
+
+    let result = await controllerAtividade.atualizarAtividade(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/atividade/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerAtividade.excluirAtividade(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+//                                 ENDPOINTS FOTO
+app.post('/v1/senai/locadora/foto', bodyParserJSON, async function (request, response) {
+    let dados = request.body
+    let contentType = request.headers['content-type']
+    
+    let result = await controllerFoto.inserirNovaFoto(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/foto', async function (request, response) {
+    let result = await controllerFoto.listarFoto()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/foto/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerFoto.buscarFoto(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/foto/:id', bodyParserJSON, async function (request, response) {
+    let id = request.params.id
+    let dados = request.body
+    let contentType = request.headers['content-type']
+
+    let result = await controllerFoto.atualizarFoto(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.delete('/v1/senai/locadora/foto/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerFoto.excluirFoto(id)
 
     response.status(result.status_code)
     response.json(result)
