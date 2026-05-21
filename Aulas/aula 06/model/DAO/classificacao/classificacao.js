@@ -20,7 +20,7 @@ const insertClassificacao = async function (classificacao) {
         let sql = `insert into tbl_classificacao (
             classificacao
         ) values (
-            '${classificacao.classificacao}'
+            replace("${classificacao.classificacao}", "'", "")
         );`
 
         let result = await knexConection.raw(sql)
