@@ -95,6 +95,21 @@ create table tbl_genero (
     genero varchar(30)
 );
 
+#Tabela Intermediaria Filme e Genero
+create table tbl_genero_filme (
+	id int not null auto_increment primary key,
+    id_filme int not null,
+    id_genero int not null,
+    
+    constraint FK_FILME_GENEROFILME
+    foreign key (id_filme)
+    references tbl_filme(id),
+    
+    constraint FK_GENERO_GENEROFILME
+    foreign key (id_genero)
+    references tbl_genero(id)
+);
+
 #Tabela Atividade
 create table tbl_atividade (
 	id int not null auto_increment primary key,
@@ -106,3 +121,25 @@ create table tbl_foto (
 	id int not null auto_increment primary key,
     foto_url varchar(255) not null
 );
+
+#Tabela Diretor
+create table tbl_diretor (
+	id int not null auto_increment primary key,
+    nome varchar(100) not null,
+    data_nascimento date not null,
+    biografia text,
+    id_sexo_diretor int not null,
+    id_nacionalidade_diretor int not null,
+    
+    #Relação entre a Tabela de Sexo e Diretor
+    constraint FK_SEXO_DIRETOR
+    foreign key (id_sexo_diretor)
+    references tbl_sexo(id),
+    
+    #Relação entre a Tabela Nacionalidade e Diretor
+    constraint FK_NACIONALIDADE_DIRETOR
+    foreign key (id_nacionalidade_diretor)
+    references tbl_nacionalidade(id)
+);
+
+desc tbl_genero_filme;

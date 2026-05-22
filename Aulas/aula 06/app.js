@@ -21,13 +21,14 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 //Import das controllers do projeto
-const controllerFilme = require('./controller/filme/controller_filme.js')
-const controllerClassificacao = require('./controller/classificacao/controller_classificacao.js')
-const controllerSexo = require('./controller/sexo/controller_sexo.js')
-const controllerNacionalidade = require('./controller/nacionalidade/controller_nacionalidade.js')
-const controllerGenero = require('./controller/genero/controller_genero.js')
-const controllerAtividade = require('./controller/atividade/controller_atividade.js')
-const controllerFoto = require('./controller/foto/controller_foto.js')
+const controllerFilme           = require('./controller/filme/controller_filme.js')
+const controllerClassificacao   = require('./controller/classificacao/controller_classificacao.js')
+const controllerSexo            = require('./controller/sexo/controller_sexo.js')
+const controllerNacionalidade   = require('./controller/nacionalidade/controller_nacionalidade.js')
+const controllerGenero          = require('./controller/genero/controller_genero.js')
+const controllerAtividade       = require('./controller/atividade/controller_atividade.js')
+const controllerFoto            = require('./controller/foto/controller_foto.js')
+const controllerDiretor         = require('./controller/diretor/controller_diretor.js')
 
 //                                       ENDPOINTS
 app.post('/v1/senai/locadora/filme', bodyParserJSON, async function (request, response) {
@@ -365,6 +366,44 @@ app.delete('/v1/senai/locadora/foto/:id', async function (request, response) {
     let id = request.params.id
 
     let result = await controllerFoto.excluirFoto(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+//                          ENDPOINTS DIRETOR
+app.post('/v1/senai/locadora/diretor', bodyParserJSON, async function (request, response) {
+    let dados = request.body
+    let contentType = request.headers['content-type']
+
+    let result = await controllerDiretor.inserirNovoDiretor(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/diretor', async function (request, response) {
+    let result = await controllerDiretor.listarDiretor()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/diretor/:id', async function (request, response) {
+    let id = request.params.id
+
+    let result = await controllerDiretor.buscarDiretor(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put('/v1/senai/locadora/diretor/:id', bodyParserJSON, async function (request, response) {
+    let id = request.params.id
+    let dados = request.body
+    let contentType = request.headers['content-type']
+
+    let result = await controllerDiretor.atualizarDiretor(dados, id, contentType)
 
     response.status(result.status_code)
     response.json(result)

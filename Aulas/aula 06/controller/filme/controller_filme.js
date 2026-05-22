@@ -13,6 +13,7 @@ const filmeDAO = require('../../model/DAO/filme/filme.js')
 
 //Import das Controllers
 const controllerClassificacao = require('../classificacao/controller_classificacao.js')
+const controllerFilmeGenero = require('./controller_filme_genero.js')
 
 //Função para validar os dados de cadastro do filme
 const validarDados = async function (filme) {
@@ -77,6 +78,18 @@ const inserirNovoFilme = async function (filme, contentType) {
                 if (result) {
                     //Cria o ID no Json do filme e adiciona o ID gerado
                     filme.id = result
+
+                    //Manipulação de dados para inserir os generos relacionados ao Filme
+                    //Percorre o ARRAY de generos que chegará na requisição pelo objeto Filme
+                    for (let itemFilme of filme.genero) {
+                        let filmeGenero = {
+                            "id_filme": filme.id,
+                            "id_genero": itemFilme.id
+                        }
+
+                        let resulFilmeGenero = await controllerFilmeGenero.inserirNovoFilmeGenero(filmeGenero)
+                        console.log(resulFilmeGenero)
+                    }
 
                     customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_CREATED_ITEM.status
                     customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_CREATED_ITEM.status_code
@@ -222,9 +235,9 @@ const buscarFilme = async function (id) {
                         }
                     }
 
-                    customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
-                    customMessages.DEFAULT_MESSAGE.status_code      = customMessages.SUCCESS_RESPONSE.status_code
-                    customMessages.DEFAULT_MESSAGE.response.filme   = result
+                    customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
+                    customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_RESPONSE.status_code
+                    customMessages.DEFAULT_MESSAGE.response.filme = result
 
                     return customMessages.DEFAULT_MESSAGE //200
                 } else {

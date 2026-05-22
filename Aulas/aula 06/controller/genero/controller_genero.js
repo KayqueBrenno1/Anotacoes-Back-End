@@ -1,6 +1,6 @@
 /*************************************************************************************************************************
  * Objetivo: Arquivo responsável pela validação, tratamento, manipulação de dados para realizar o CRUD de GENERO
- * data_lancamento: 13/05/2026
+ * data: 13/05/2026
  * Autor: Kayque Brenno Ferreira Almeida
  * Versão: 1.0
 **************************************************************************************************************************/
