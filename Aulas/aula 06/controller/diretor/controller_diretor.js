@@ -23,7 +23,7 @@ const validarDados = async function (diretor) {
         customMessages.ERROR_BAD_REQUEST.field = '[NOME] INVÁLIDO'
     } else if (diretor.data_nascimento == undefined || diretor.data_nascimento == '' || diretor.data_nascimento == null || diretor.data_nascimento.length != 10) {
         customMessages.ERROR_BAD_REQUEST.field = '[DATA DE NASCIMENTO] INVÁLIDO'
-    } else if (diretor.biografia == undefined && (!isNaN(diretor.biografia))) {
+    } else if (diretor.biografia == undefined) {
         customMessages.ERROR_BAD_REQUEST.field = '[BIOGRAFIA] INVÁLIDO'
     } else if (diretor.id_sexo_diretor == undefined || diretor.id_sexo_diretor == '' || diretor.id_sexo_diretor == null || diretor.id_sexo_diretor < 1 || isNaN(diretor.id_sexo_diretor)) {
         customMessages.ERROR_BAD_REQUEST.field = '[ID DE SEXO] INVÁLIDO'
@@ -36,24 +36,34 @@ const validarDados = async function (diretor) {
     return customMessages.ERROR_BAD_REQUEST
 }
 
+const tratarDados = async function (diretor) {
+    //Tratamento para eliminar a chegada da aspas (') como caracter inválido
+    diretor.nome                        = diretor.nome.replaceAll("'", "")
+    diretor.data_nascimento             = diretor.data_nascimento.replaceAll("'", "")
+    diretor.biografia                   = diretor.biografia.replaceAll("'", "")
+
+    return diretor
+}
+
 //Função para inserir um novo Diretor
 const inserirNovoDiretor = async function (diretor, contentType) {
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 
     try {
+        console.log(diretor)
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
             let validacao = await validarDados(diretor)
 
             if (validacao)
                 return validacao //400
             else { //200
-                let result = await diretorDAO.insertDiretor(diretor)
+                let result = await diretorDAO.insertDiretor(await tratarDados(diretor))
 
                 if (result) {
-                    customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_CREATED_ITEM.status
-                    customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_CREATED_ITEM.status_code
-                    customMessages.DEFAULT_MESSAGE.message = customMessages.SUCCESS_CREATED_ITEM.message
-                    customMessages.DEFAULT_MESSAGE.response = diretor
+                    customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_CREATED_ITEM.status
+                    customMessages.DEFAULT_MESSAGE.status_code  = customMessages.SUCCESS_CREATED_ITEM.status_code
+                    customMessages.DEFAULT_MESSAGE.message      = customMessages.SUCCESS_CREATED_ITEM.message
+                    customMessages.DEFAULT_MESSAGE.response     = diretor
 
                     return customMessages.DEFAULT_MESSAGE //201
                 } else {
@@ -83,7 +93,7 @@ const atualizarDiretor = async function (diretor, id, contentType) {
                 if (!validar) {
                     diretor.id = Number(id)
 
-                    let result = await diretorDAO.updateDiretor(diretor)
+                    let result = await diretorDAO.updateDiretor(await tratarDados(diretor))
 
                     if (result) {
                         customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_UPDATE_ITEM.status

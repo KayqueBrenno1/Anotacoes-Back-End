@@ -37,10 +37,10 @@ const inserirNovoFilmeGenero = async function (filmeGenero) {
             if (result) {
                 filmeGenero.id = result
 
-                customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_CREATED_ITEM.status
-                customMessages.DEFAULT_MESSAGE.status_code  = customMessages.SUCCESS_CREATED_ITEM.status_code
-                customMessages.DEFAULT_MESSAGE.message      = customMessages.SUCCESS_CREATED_ITEM.message
-                customMessages.DEFAULT_MESSAGE.response     = filmeGenero
+                customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_CREATED_ITEM.status
+                customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_CREATED_ITEM.status_code
+                customMessages.DEFAULT_MESSAGE.message = customMessages.SUCCESS_CREATED_ITEM.message
+                customMessages.DEFAULT_MESSAGE.response = filmeGenero
 
                 return customMessages.DEFAULT_MESSAGE
             } else {
@@ -57,32 +57,32 @@ const atualizarFilmeGenero = async function (filmeGenero, id) {
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 
     try {
-            let resultBuscarID = await buscarGeneroFilme(id)
+        let resultBuscarID = await buscarGeneroFilme(id)
 
-            if (resultBuscarID.status) {
-                let validar = await validarDados(filmeGenero)
+        if (resultBuscarID.status) {
+            let validar = await validarDados(filmeGenero)
 
-                if (!validar) {
-                    filmeGenero.id = Number(id)
+            if (!validar) {
+                filmeGenero.id = Number(id)
 
-                    let result = await filmeGeneroDAO.updateFilmeGenero(filmeGenero)
+                let result = await filmeGeneroDAO.updateFilmeGenero(filmeGenero)
 
-                    if (result) {
-                        customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_UPDATE_ITEM.status
-                        customMessages.DEFAULT_MESSAGE.status_code  = customMessages.SUCCESS_UPDATE_ITEM.status_code
-                        customMessages.DEFAULT_MESSAGE.message      = customMessages.SUCCESS_UPDATE_ITEM.message
-                        customMessages.DEFAULT_MESSAGE.response     = filmeGenero
+                if (result) {
+                    customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_UPDATE_ITEM.status
+                    customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_UPDATE_ITEM.status_code
+                    customMessages.DEFAULT_MESSAGE.message = customMessages.SUCCESS_UPDATE_ITEM.message
+                    customMessages.DEFAULT_MESSAGE.response = filmeGenero
 
-                        return customMessages.DEFAULT_MESSAGE //200 (Atualizado)
-                    } else {
-                        return customMessages.ERROR_INTERNAL_SERVER_MODEL
-                    }
+                    return customMessages.DEFAULT_MESSAGE //200 (Atualizado)
                 } else {
-                    return validar
+                    return customMessages.ERROR_INTERNAL_SERVER_MODEL
                 }
             } else {
-                return resultBuscarID
+                return validar
             }
+        } else {
+            return resultBuscarID
+        }
     } catch (error) {
         return customMessages.ERROR_INTERNAL_SERVER_CONTROLLER
     }
@@ -96,10 +96,10 @@ const listarFilmeGenero = async function () {
 
         if (result) {
             if (result.length > 0) {
-                customMessages.DEFAULT_MESSAGE.status                   = customMessages.SUCCESS_RESPONSE.status
-                customMessages.DEFAULT_MESSAGE.status_code              = customMessages.SUCCESS_RESPONSE.status_code
-                customMessages.DEFAULT_MESSAGE.response.count           = result.length
-                customMessages.DEFAULT_MESSAGE.response.filme_genero    = result
+                customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
+                customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_RESPONSE.status_code
+                customMessages.DEFAULT_MESSAGE.response.count = result.length
+                customMessages.DEFAULT_MESSAGE.response.filme_genero = result
 
                 return customMessages.DEFAULT_MESSAGE
             } else {
@@ -125,9 +125,9 @@ const buscarFilmeGenero = async function (id) {
 
             if (result) {
                 if (result.length > 0) {
-                    customMessages.DEFAULT_MESSAGE.status                   = customMessages.SUCCESS_RESPONSE.status
-                    customMessages.DEFAULT_MESSAGE.status_code              = customMessages.SUCCESS_RESPONSE.status_code
-                    customMessages.DEFAULT_MESSAGE.response.filme_genero    = result
+                    customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
+                    customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_RESPONSE.status_code
+                    customMessages.DEFAULT_MESSAGE.response.filme_genero = result
 
                     return customMessages.DEFAULT_MESSAGE
                 } else {
@@ -155,9 +155,9 @@ const buscarGenerosIdFilme = async function (idFilme) {
 
             if (result) {
                 if (result.length > 0) {
-                    customMessages.DEFAULT_MESSAGE.status                   = customMessages.SUCCESS_RESPONSE.status
-                    customMessages.DEFAULT_MESSAGE.status_code              = customMessages.SUCCESS_RESPONSE.status_code
-                    customMessages.DEFAULT_MESSAGE.response.filme_genero    = result
+                    customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
+                    customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_RESPONSE.status_code
+                    customMessages.DEFAULT_MESSAGE.response.filme_genero = result
 
                     return customMessages.DEFAULT_MESSAGE
                 } else {
@@ -184,9 +184,9 @@ const buscarFilmesIdGenero = async function (idGenero) {
 
             if (result) {
                 if (result.length > 0) {
-                    customMessages.DEFAULT_MESSAGE.status                   = customMessages.SUCCESS_RESPONSE.status
-                    customMessages.DEFAULT_MESSAGE.status_code              = customMessages.SUCCESS_RESPONSE.status_code
-                    customMessages.DEFAULT_MESSAGE.response.filme_genero    = result
+                    customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
+                    customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_RESPONSE.status_code
+                    customMessages.DEFAULT_MESSAGE.response.filme_genero = result
 
                     return customMessages.DEFAULT_MESSAGE
                 } else {
@@ -223,6 +223,23 @@ const excluirFilmeGenero = async function (id) {
     }
 }
 
+//Função para excluir a relação de generos com o Filme
+const excluirGenerosIdFilme = async function (idFilme) {
+    let customMessages = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+        let result = await filmeGeneroDAO.deleteGenerosByIdFilme(idFilme)
+
+        if (result) {
+            return customMessages.SUCCESS_DELETE_ITEM
+        } else {
+            return customMessages.ERROR_INTERNAL_SERVER_MODEL
+        }
+    } catch (error) {
+        return customMessages.ERROR_INTERNAL_SERVER_CONTROLLER //500 (controller)
+    }
+}
+
 module.exports = {
     inserirNovoFilmeGenero,
     listarFilmeGenero,
@@ -230,5 +247,6 @@ module.exports = {
     buscarGenerosIdFilme,
     buscarFilmesIdGenero,
     atualizarFilmeGenero,
-    excluirFilmeGenero
+    excluirFilmeGenero,
+    excluirGenerosIdFilme
 }

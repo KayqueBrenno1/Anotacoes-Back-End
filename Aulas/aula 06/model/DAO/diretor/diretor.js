@@ -18,35 +18,19 @@ const knexConection = knex(knexDataBaseConfig.development)
 //Função para inserir um novo Diretor no banco de dados
 const insertDiretor = async function (diretor) {
     try {
-        let sql = ''
-
-        if (diretor.biografia == undefined) {
-            sql = `insert into tbl_diretor (
-            nome,
-            data_nascimento,
-            id_sexo_diretor,
-            id_nacionalidade_diretor
-        ) values (
-            replace("${diretor.nome}", "'", ""),
-            replace("${diretor.data_nascimento}", "'", ""),
-            ${diretor.id_sexo_diretor},
-            ${diretor.id_nacionalidade_diretor}
-        );`
-        } else {
-            sql = `insert into tbl_diretor (
+        let sql = `insert into tbl_diretor (
             nome,
             data_nascimento,
             biografia,
             id_sexo_diretor,
             id_nacionalidade_diretor
         ) values (
-            replace("${diretor.nome}", "'", ""),
-            replace("${diretor.data_nascimento}", "'", ""),
-            replace("${diretor.biografia}", "'", ""),
+            '${diretor.nome}',
+            '${diretor.data_nascimento}',
+            if('${diretor.biografia}' = '', null, '${diretor.biografia}'),
             ${diretor.id_sexo_diretor},
             ${diretor.id_nacionalidade_diretor}
         );`
-        }
 
         //Encaminha para o banco de dados o scriptSQL
         let result = await knexConection.raw(sql)
@@ -64,24 +48,13 @@ const insertDiretor = async function (diretor) {
 //Função para atualizar um Diretor existente no banco de dados
 const updateDiretor = async function (diretor) {
     try {
-        let sql = ''
-
-        if (diretor.biografia == undefined) {
-            sql = `update tbl_diretor set
+        let sql = `update tbl_diretor set
 	                    nome                        = replace("${diretor.nome}", "'", ""),
                         data_nascimento             = replace("${diretor.data_nascimento}", "'", ""),
+                        biografia                   = if('${diretor.biografia}' = '', null, replace("${diretor.biografia}", "'", "")),
                         id_sexo_diretor             = ${diretor.id_sexo_diretor},
                         id_nacionalidade_diretor    = ${diretor.id_nacionalidade_diretor}
                     where id = ${diretor.id};`
-        } else {
-            sql = `update tbl_diretor set
-	                    nome                        = replace("${diretor.nome}", "'", ""),
-                        data_nascimento             = replace("${diretor.data_nascimento}", "'", ""),
-                        biografia                   = replace("${diretor.biografia}", "'", ""),
-                        id_sexo_diretor             = ${diretor.id_sexo_diretor},
-                        id_nacionalidade_diretor    = ${diretor.id_nacionalidade_diretor}
-                    where id = ${diretor.id};`
-        }
         
         let result = await knexConection.raw(sql)
 
