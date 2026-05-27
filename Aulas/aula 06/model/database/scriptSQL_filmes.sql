@@ -142,4 +142,5 @@ create table tbl_diretor (
     references tbl_nacionalidade(id)
 );
 
-desc tbl_genero_filme;
+desc tbl_diretor;
+select * from tbl_genero_filme;

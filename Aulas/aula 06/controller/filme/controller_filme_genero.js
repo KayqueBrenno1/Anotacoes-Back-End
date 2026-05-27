@@ -171,6 +171,7 @@ const buscarGenerosIdFilme = async function (idFilme) {
         return customMessages.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
+
 const buscarFilmesIdGenero = async function (idGenero) {
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 

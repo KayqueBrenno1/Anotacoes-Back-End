@@ -23,29 +23,17 @@ const validarDados = async function (diretor) {
         customMessages.ERROR_BAD_REQUEST.field = '[NOME] INVÁLIDO'
     } else if (diretor.data_nascimento == undefined || diretor.data_nascimento == '' || diretor.data_nascimento == null || diretor.data_nascimento.length != 10) {
         customMessages.ERROR_BAD_REQUEST.field = '[DATA DE NASCIMENTO] INVÁLIDO'
-    } else if (diretor.biografia == undefined || !isNaN(diretor.biografia)) {
+    } else if (diretor.biografia == undefined && (!isNaN(diretor.biografia))) {
         customMessages.ERROR_BAD_REQUEST.field = '[BIOGRAFIA] INVÁLIDO'
-    } else if (filme.id_sexo_diretor == undefined || filme.id_sexo_diretor == '' || filme.id_sexo_diretor == null || filme.id_sexo_diretor < 1 || isNaN(filme.id_sexo_diretor)) {
+    } else if (diretor.id_sexo_diretor == undefined || diretor.id_sexo_diretor == '' || diretor.id_sexo_diretor == null || diretor.id_sexo_diretor < 1 || isNaN(diretor.id_sexo_diretor)) {
         customMessages.ERROR_BAD_REQUEST.field = '[ID DE SEXO] INVÁLIDO'
-    } else if (filme.id_nacionalidade_diretor == undefined || filme.id_nacionalidade_diretor == '' || filme.id_nacionalidade_diretor == null || filme.id_nacionalidade_diretor < 1 || isNaN(filme.id_nacionalidade_diretor)) {
+    } else if (diretor.id_nacionalidade_diretor == undefined || diretor.id_nacionalidade_diretor == '' || diretor.id_nacionalidade_diretor == null || diretor.id_nacionalidade_diretor < 1 || isNaN(diretor.id_nacionalidade_diretor)) {
         customMessages.ERROR_BAD_REQUEST.field = '[ID DE NACIONALIDADE] INVÁLIDO'
     } else {
         return false
     }
 
     return customMessages.ERROR_BAD_REQUEST
-}
-
-//Função para tratar os dados a serem inseridos
-const tratarDados = async function (diretor) {
-    //Tratamento para eliminar a chegada da aspas (') como caracter inválido
-    diretor.nome = diretor.nome.replaceAll("'", "")
-    diretor.data_nascimento = diretor.data_nascimento.replaceAll("'", "")
-    diretor.biografia = diretor.biografia.replaceAll("'", "")
-    diretor.id_sexo_diretor = diretor.id_sexo_diretor.replaceAll("'", "")
-    diretor.id_nacionalidade_diretor = diretor.id_nacionalidade_diretor.replaceAll("'", "")
-
-    return diretor
 }
 
 //Função para inserir um novo Diretor
@@ -59,12 +47,9 @@ const inserirNovoDiretor = async function (diretor, contentType) {
             if (validacao)
                 return validacao //400
             else { //200
-
-                let result = await diretorDAO.insertDiretor(await tratarDados(diretor))
+                let result = await diretorDAO.insertDiretor(diretor)
 
                 if (result) {
-                    diretor.id = result
-
                     customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_CREATED_ITEM.status
                     customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_CREATED_ITEM.status_code
                     customMessages.DEFAULT_MESSAGE.message = customMessages.SUCCESS_CREATED_ITEM.message
@@ -98,13 +83,13 @@ const atualizarDiretor = async function (diretor, id, contentType) {
                 if (!validar) {
                     diretor.id = Number(id)
 
-                    let result = await diretorDAO.updateDiretor(await tratarDados(diretor))
+                    let result = await diretorDAO.updateDiretor(diretor)
 
                     if (result) {
-                        customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_UPDATE_ITEM.status
-                        customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_UPDATE_ITEM.status_code
-                        customMessages.DEFAULT_MESSAGE.message = customMessages.SUCCESS_UPDATE_ITEM.message
-                        customMessages.DEFAULT_MESSAGE.response = diretor
+                        customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_UPDATE_ITEM.status
+                        customMessages.DEFAULT_MESSAGE.status_code  = customMessages.SUCCESS_UPDATE_ITEM.status_code
+                        customMessages.DEFAULT_MESSAGE.message      = customMessages.SUCCESS_UPDATE_ITEM.message
+                        customMessages.DEFAULT_MESSAGE.response     = diretor
 
                         return customMessages.DEFAULT_MESSAGE //200
                     } else {
@@ -218,8 +203,8 @@ const buscarDiretor = async function (id) {
                         }
                     }
 
-                    customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
-                    customMessages.DEFAULT_MESSAGE.status_code      = customMessages.SUCCESS_RESPONSE.status_code
+                    customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
+                    customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_RESPONSE.status_code
                     customMessages.DEFAULT_MESSAGE.response.diretor = result
 
                     return customMessages.DEFAULT_MESSAGE //200

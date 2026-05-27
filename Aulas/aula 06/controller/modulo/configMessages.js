@@ -69,6 +69,11 @@ const SUCCESS_DELETE_ITEM = {
     status_code: 204
 }
 
+const SUCCESS_CREATED_ITEM_WARNING = {
+    status: true,
+    status_code: 201,
+    message: 'Item inserido com sucesso, porém alguns dados tiveram problemas no cadastro [DADOS DE RELACIONAMENTO]'
+}
 
 module.exports = {
     DEFAULT_MESSAGE,
@@ -80,5 +85,6 @@ module.exports = {
     ERROR_NOT_FOUND,
     SUCCESS_RESPONSE,
     SUCCESS_UPDATE_ITEM,
-    SUCCESS_DELETE_ITEM
+    SUCCESS_DELETE_ITEM,
+    SUCCESS_CREATED_ITEM_WARNING
 }

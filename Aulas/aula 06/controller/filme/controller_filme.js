@@ -88,7 +88,10 @@ const inserirNovoFilme = async function (filme, contentType) {
                         }
 
                         let resulFilmeGenero = await controllerFilmeGenero.inserirNovoFilmeGenero(filmeGenero)
-                        console.log(resulFilmeGenero)
+
+                        if (!resulFilmeGenero.status) {
+                            return customMessages.SUCCESS_CREATED_ITEM_WARNING //201 com alerta de cadastro
+                        }
                     }
 
                     customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_CREATED_ITEM.status
@@ -183,6 +186,12 @@ const listarFilme = async function () {
                         // Apaga o atributo id_classificacao do JSON de filme
                         delete filme.id_classificacao
                     }
+
+                    let resultFilmeGenero = await controllerFilmeGenero.buscarGenerosIdFilme(filme.id)
+
+                    if (resultFilmeGenero.status) {
+                        filme.genero = resultFilmeGenero.response.filme_genero
+                    }
                 }
 
                 customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
@@ -232,6 +241,12 @@ const buscarFilme = async function (id) {
                             filme.classificacao = resultClassificacao.response.classificacao
                             // Apaga o atributo id_classificacao do JSON de filme
                             delete filme.id_classificacao
+                        }
+
+                        let resultFilmeGenero = await controllerFilmeGenero.buscarGenerosIdFilme(filme.id)
+
+                        if (resultFilmeGenero.status) {
+                            filme.genero = resultFilmeGenero.response.filme_genero
                         }
                     }
 

@@ -409,6 +409,15 @@ app.put('/v1/senai/locadora/diretor/:id', bodyParserJSON, async function (reques
     response.json(result)
 })
 
+app.delete('/v1/senai/locadora/diretor/:id', async function (request, response) {
+    let id = request.params.id
+
+    const result = await controllerDiretor.excluirDiretor(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
 //Fazer o Start na API (aguardando as requisições)
 app.listen(8080, function () {
     console.log('API aguardando novas requisições...')
