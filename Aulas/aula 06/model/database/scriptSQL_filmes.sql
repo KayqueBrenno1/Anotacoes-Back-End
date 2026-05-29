@@ -142,5 +142,24 @@ create table tbl_diretor (
     references tbl_nacionalidade(id)
 );
 
-desc tbl_diretor;
-select * from tbl_genero_filme;
+#Tabela Ator
+create table tbl_ator (
+	id 							int not null auto_increment primary key,
+    nome 						varchar(100) not null,
+    data_nascimento 			date not null,
+    biografia 					text,
+    id_sexo_ator 				int not null,
+    id_nacionalidade_ator 		int not null,
+    
+    #Relação entre a Tabela de Sexo e Ator
+    constraint FK_SEXO_ATOR
+    foreign key (id_sexo_ator)
+    references tbl_sexo(id),
+    
+    #Relação entre a Tabela Nacionalidade e Ator
+    constraint FK_NACIONALIDADE_ATOR
+    foreign key (id_nacionalidade_ator)
+    references tbl_nacionalidade(id)
+);
+
+show tables;
