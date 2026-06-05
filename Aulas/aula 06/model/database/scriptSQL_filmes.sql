@@ -121,6 +121,40 @@ create table tbl_ator (
     references tbl_nacionalidade(id)
 );
 
+#Tabela Foto Ator
+create table tbl_foto_ator (
+	id int not null auto_increment primary key,
+    id_foto int not null,
+    id_ator int not null,
+    
+    #Relação entre Foto e FotoAtor
+    constraint FK_FOTO_FOTOATOR
+    foreign key (id_foto)
+    references tbl_foto(id),
+    
+    #Relação entre Ator e FotoAtor
+    constraint FK_ATOR_FOTOATOR
+    foreign key (id_ator)
+    references tbl_ator(id)
+);
+
+#Tabela Foto Diretor
+create table tbl_foto_diretor (
+	id int not null auto_increment primary key,
+    id_foto int not null,
+    id_diretor int not null,
+    
+    #Relação entre Foto e FotoDiretor
+    constraint FK_FOTO_FOTODIRETOR
+    foreign key (id_foto)
+    references tbl_foto(id),
+    
+    #Relação entre Diretor e FotoDiretor
+    constraint FK_DIRETOR_FOTODIRETOR
+    foreign key (id_diretor)
+    references tbl_diretor(id)
+);
+
 show tables;
 
-select * from tbl_filme;
+select * from tbl_foto_diretor;
