@@ -28,47 +28,6 @@ create table tbl_filme (
     references tbl_classificacao(id)
 );
 
-#drop table tbl_filme;
-
-#drop database db_filmes_20261_b;
-
-insert into tbl_filme (
-	nome,
-    sinopse,
-    capa,
-    data_lancamento,
-    duracao,
-    valor,
-    avaliacao
-) values (
-	'Super Mario Galaxy: O Filme',
-    'Uma nova aventura leva Mario a enfrentar um inédito e ameaçador super vilão. Em Super Mario Galaxy: O Filme, 
-    o bigodudo encanador italiano e seus aliados embarcam numa aventura galáctica repleta de ação 
-    e momentos emocionantes depois de salvar o Reino dos Cogumelos.',
-    'https://br.web.img3.acsta.net/c_310_420/img/5b/ea/5bea1aeac3323aeaaf82449a34fafbbf.jpg',
-    '2026-04-02',
-    '01:39:00',
-    '50.60',
-    '3'
-);
-
-select * from tbl_filme;
-select * from tbl_filme order by id desc;
-
-select * from tbl_filme where id = 6;
-
-update tbl_filme set
-	nome = 'Filme - teste de atualização',
-    sinopse = 'Testando a atualização do filme',
-    capa = 'teste',
-    data_lancamento = '2026-04-29',
-    duracao = '02:30:00',
-    valor = '10',
-    avaliacao = '2'
-where id = 8;
-
-delete from tbl_filme where id = 7;
-
 #Tabela Classificação
 create table tbl_classificacao (
 	id int not null auto_increment primary key,
@@ -163,3 +122,5 @@ create table tbl_ator (
 );
 
 show tables;
+
+select * from tbl_filme;

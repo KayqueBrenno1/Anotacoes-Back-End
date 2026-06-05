@@ -14,6 +14,7 @@ const atorDAO = require('../../model/DAO/ator/ator.js')
 //Import das Controllers
 const controllerSexo = require('../sexo/controller_sexo.js')
 const controllerNacionalidade = require('../nacionalidade/controller_nacionalidade.js')
+const controllerFotoAtor = require('./controller_foto_ator.js')
 
 //Função para validar os dados de cadastro do Diretor
 const validarDados = async function (ator) {
@@ -58,6 +59,21 @@ const inserirNovoAtor = async function (ator, contentType) {
                 let result = await atorDAO.insertAtor(await tratarDados(ator))
 
                 if (result) {
+                    ator.id = result
+
+                    for (let itemAtor of ator.foto) {
+                        let fotoAtor = {
+                            "id_ator": ator.id,
+                            "id_foto": itemAtor.id
+                        }
+
+                        let resultFotoAtor = await controllerFotoAtor.inserirNovaFotoAtor(fotoAtor)
+
+                        if (!resultFotoAtor.status) {
+                            return customMessages.SUCCESS_CREATED_ITEM_WARNING
+                        }
+                    }
+
                     customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_CREATED_ITEM.status
                     customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_CREATED_ITEM.status_code
                     customMessages.DEFAULT_MESSAGE.message = customMessages.SUCCESS_CREATED_ITEM.message
@@ -94,10 +110,29 @@ const atualizarAtor = async function (ator, id, contentType) {
                     let result = await atorDAO.updateAtor(await tratarDados(ator))
 
                     if (result) {
-                        customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_UPDATE_ITEM.status
-                        customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_UPDATE_ITEM.status_code
-                        customMessages.DEFAULT_MESSAGE.message = customMessages.SUCCESS_UPDATE_ITEM.message
-                        customMessages.DEFAULT_MESSAGE.response = ator
+                        let resultDeleteFotos = await controllerFotoAtor.excluirFotosIdAtor(ator.id)
+
+                        if (resultDeleteFotos.status) {
+                            //Manipulação de dados para inserir as fotos relacionados ao Ator
+                            //Percorre o ARRAY de fotos que chegará na requisição pelo objeto Ator
+                            for (let itemAtor of ator.foto) {
+                                let fotoAtor = {
+                                    "id_ator": ator.id,
+                                    "id_foto": itemAtor.id
+                                }
+
+                                let resultFotoAtor = await controllerFotoAtor.inserirNovaFotoAtor(fotoAtor)
+
+                                if (!resultFotoAtor.status) {
+                                    return customMessages.SUCCESS_CREATED_ITEM_WARNING //201 com alerta
+                                }
+                            }
+                        }
+
+                        customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_UPDATE_ITEM.status
+                        customMessages.DEFAULT_MESSAGE.status_code  = customMessages.SUCCESS_UPDATE_ITEM.status_code
+                        customMessages.DEFAULT_MESSAGE.message      = customMessages.SUCCESS_UPDATE_ITEM.message
+                        customMessages.DEFAULT_MESSAGE.response     = ator
 
                         return customMessages.DEFAULT_MESSAGE //200
                     } else {
@@ -145,6 +180,11 @@ const listarAtor = async function () {
 
                         delete ator.id_nacionalidade_ator
                     }
+
+                    let resultFotoAtor = await controllerFotoAtor.buscarFotosIdAtor(ator.id)
+
+                    if (resultFotoAtor.status)
+                        ator.foto = resultFotoAtor.response.foto_ator
                 }
 
                 customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
@@ -195,11 +235,16 @@ const buscarAtor = async function (id) {
 
                             delete ator.id_nacionalidade_ator
                         }
+
+                        let resultFotoAtor = await controllerFotoAtor.buscarFotosIdAtor(ator.id)
+
+                        if (resultFotoAtor.status)
+                            ator.foto = resultFotoAtor.response.foto_ator
                     }
 
-                    customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
-                    customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_RESPONSE.status_code
-                    customMessages.DEFAULT_MESSAGE.response.ator = result
+                    customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
+                    customMessages.DEFAULT_MESSAGE.status_code      = customMessages.SUCCESS_RESPONSE.status_code
+                    customMessages.DEFAULT_MESSAGE.response.ator    = result
 
                     return customMessages.DEFAULT_MESSAGE //200
                 } else {

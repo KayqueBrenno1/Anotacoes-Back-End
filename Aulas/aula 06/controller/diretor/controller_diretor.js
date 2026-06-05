@@ -13,6 +13,7 @@ const diretorDAO = require('../../model/DAO/diretor/diretor.js')
 //Import das Controllers
 const controllerSexo = require('../sexo/controller_sexo.js')
 const controllerNacionalidade = require('../nacionalidade/controller_nacionalidade.js')
+const controllerFotoDiretor = require('./controller_foto_diretor.js')
 
 //Função para validar os dados de cadastro do Diretor
 const validarDados = async function (diretor) {
@@ -38,9 +39,9 @@ const validarDados = async function (diretor) {
 
 const tratarDados = async function (diretor) {
     //Tratamento para eliminar a chegada da aspas (') como caracter inválido
-    diretor.nome                        = diretor.nome.replaceAll("'", "")
-    diretor.data_nascimento             = diretor.data_nascimento.replaceAll("'", "")
-    diretor.biografia                   = diretor.biografia.replaceAll("'", "")
+    diretor.nome = diretor.nome.replaceAll("'", "")
+    diretor.data_nascimento = diretor.data_nascimento.replaceAll("'", "")
+    diretor.biografia = diretor.biografia.replaceAll("'", "")
 
     return diretor
 }
@@ -50,7 +51,6 @@ const inserirNovoDiretor = async function (diretor, contentType) {
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 
     try {
-        console.log(diretor)
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
             let validacao = await validarDados(diretor)
 
@@ -60,6 +60,21 @@ const inserirNovoDiretor = async function (diretor, contentType) {
                 let result = await diretorDAO.insertDiretor(await tratarDados(diretor))
 
                 if (result) {
+                    diretor.id = result
+
+                    for (let itemDiretor of diretor.foto) {
+                        let fotoDiretor = {
+                            "id_diretor": diretor.id,
+                            "id_foto": itemDiretor.id
+                        }
+
+                        let resultFotoDiretor = await controllerFotoDiretor.inserirNovaFotoDiretor(fotoDiretor)
+
+                        if (!resultFotoDiretor.status) {
+                            return customMessages.SUCCESS_CREATED_ITEM_WARNING
+                        }
+                    }
+
                     customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_CREATED_ITEM.status
                     customMessages.DEFAULT_MESSAGE.status_code  = customMessages.SUCCESS_CREATED_ITEM.status_code
                     customMessages.DEFAULT_MESSAGE.message      = customMessages.SUCCESS_CREATED_ITEM.message
@@ -96,6 +111,23 @@ const atualizarDiretor = async function (diretor, id, contentType) {
                     let result = await diretorDAO.updateDiretor(await tratarDados(diretor))
 
                     if (result) {
+                        let resultDeleteFotos = await controllerFotoDiretor.excluirFotosIdDiretor(diretor.id)
+
+                        if (resultDeleteFotos.status) {
+                            for (let itemDiretor of diretor.foto) {
+                                let fotoDiretor = {
+                                    "id_diretor": diretor.id,
+                                    "id_foto": itemDiretor.id
+                                }
+
+                                let resultFotoDiretor = await controllerFotoDiretor.inserirNovaFotoDiretor(fotoDiretor)
+
+                                if (!resultFotoDiretor.status) {
+                                    return customMessages.SUCCESS_CREATED_ITEM_WARNING
+                                }
+                            }
+                        }
+
                         customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_UPDATE_ITEM.status
                         customMessages.DEFAULT_MESSAGE.status_code  = customMessages.SUCCESS_UPDATE_ITEM.status_code
                         customMessages.DEFAULT_MESSAGE.message      = customMessages.SUCCESS_UPDATE_ITEM.message
@@ -153,11 +185,16 @@ const listarDiretor = async function () {
                         //Apaga o atributo id_nacionalidade_diretor do JSON de Diretor
                         delete diretor.id_nacionalidade_diretor
                     }
+
+                    let resultFotoDiretor = await controllerFotoDiretor.buscarFotosIdDiretor(diretor.id)
+
+                    if (resultFotoDiretor.status)
+                        diretor.foto = resultFotoDiretor.response.foto_diretor
                 }
 
-                customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
-                customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_RESPONSE.status_code
-                customMessages.DEFAULT_MESSAGE.response.count = result.length
+                customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
+                customMessages.DEFAULT_MESSAGE.status_code      = customMessages.SUCCESS_RESPONSE.status_code
+                customMessages.DEFAULT_MESSAGE.response.count   = result.length
                 customMessages.DEFAULT_MESSAGE.response.diretor = result
 
                 return customMessages.DEFAULT_MESSAGE
@@ -211,10 +248,15 @@ const buscarDiretor = async function (id) {
                             //Apaga o atributo id_nacionalidade_diretor do JSON de Diretor
                             delete diretor.id_nacionalidade_diretor
                         }
+
+                        let resultFotoDiretor = await controllerFotoDiretor.buscarFotosIdDiretor(diretor.id)
+
+                        if (resultFotoDiretor.status)
+                            diretor.foto = resultFotoDiretor.response.foto_diretor
                     }
 
-                    customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
-                    customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_RESPONSE.status_code
+                    customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
+                    customMessages.DEFAULT_MESSAGE.status_code      = customMessages.SUCCESS_RESPONSE.status_code
                     customMessages.DEFAULT_MESSAGE.response.diretor = result
 
                     return customMessages.DEFAULT_MESSAGE //200

@@ -56,7 +56,7 @@ const updateFilmeGenero = async function (generoFilme) {
 
 const selectAllFilmeGenero = async function () {
     try {
-        let sql = 'select * from tbl_genero_filme order by id desc'
+        let sql = 'select * from tbl_genero_filme order by id desc;'
 
         let result = await knexConection.raw(sql)
 
@@ -72,7 +72,7 @@ const selectAllFilmeGenero = async function () {
 
 const selectByIdFilmeGenero = async function (id) {
     try {
-        let sql = `select * from tbl_genero_filme where id = ${id}`
+        let sql = `select * from tbl_genero_filme where id = ${id};`
 
         let result = await knexConection.raw(sql)
 
@@ -97,7 +97,7 @@ const selectGenerosByIdFilme = async function (idFilme) {
                         inner join tbl_genero
                             on tbl_genero.id = tbl_genero_filme.id_genero
                     
-                    where tbl_filme.id = ${idFilme}`
+                    where tbl_filme.id = ${idFilme};`
 
         let result = await knexConection.raw(sql)
 
@@ -111,7 +111,7 @@ const selectGenerosByIdFilme = async function (idFilme) {
     }
 }
 
-//Função para retornar os dados do Genero filtrando pelo ID do Filme
+//Função para retornar os dados do Filme filtrando pelo ID do Genero
 const selectFilmesByIdGenero = async function (idGenero) {
     try {
         let sql = ` select tbl_filme.*
@@ -122,7 +122,7 @@ const selectFilmesByIdGenero = async function (idGenero) {
                         inner join tbl_genero
                             on tbl_genero.id = tbl_genero_filme.id_genero
                     
-                    where tbl_genero.id = ${idGenero}`
+                    where tbl_genero.id = ${idGenero};`
 
         let result = await knexConection.raw(sql)
 
