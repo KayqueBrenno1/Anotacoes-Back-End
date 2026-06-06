@@ -10,6 +10,10 @@ const configMessages = require('../modulo/configMessages.js')
 
 const atividadeDAO = require('../../model/DAO/atividade/atividade.js')
 
+//Import das Controllers
+const controllerAtividadeAtor       = require('../ator/controller_atividade_ator.js')
+const controllerAtividadeDiretor    = require('../diretor/controller_atividade_diretor.js')
+
 const validarDados = async function (atividade) {
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 
@@ -113,6 +117,20 @@ const listarAtividade = async function () {
 
         if (result) {
             if (result.length > 0) {
+                for (let atividade of result) {
+                    let resultAtoresAtividade = await controllerAtividadeAtor
+                                                        .buscarAtoresIdAtividade(atividade.id)
+
+                    if (resultAtoresAtividade.status)
+                        atividade.ator = resultAtoresAtividade.response.atividade_ator
+
+                    let resultDiretoresAtividade = await controllerAtividadeDiretor
+                                                            .buscarDiretoresIdAtividade(atividade.id)
+
+                    if (resultDiretoresAtividade.status)
+                        atividade.diretor = resultDiretoresAtividade.response.atividade_diretor
+                }
+
                 customMessages.DEFAULT_MESSAGE.status               = customMessages.SUCCESS_RESPONSE.status
                 customMessages.DEFAULT_MESSAGE.status_code          = customMessages.SUCCESS_RESPONSE.status_code
                 customMessages.DEFAULT_MESSAGE.response.count       = result.length
@@ -143,6 +161,20 @@ const buscarAtividade = async function (id) {
 
             if (result) {
                 if (result.length > 0) {
+                    for (let atividade of result) {
+                        let resultAtoresAtividade = await controllerAtividadeAtor
+                                                            .buscarAtoresIdAtividade(atividade.id)
+
+                        if (resultAtoresAtividade.status)
+                            atividade.ator = resultAtoresAtividade.response.atividade_ator
+
+                        let resultDiretoresAtividade = await controllerAtividadeDiretor
+                                                                .buscarDiretoresIdAtividade(atividade.id)
+
+                        if (resultDiretoresAtividade.status)
+                            atividade.diretor = resultDiretoresAtividade.response.atividade_diretor
+                    }
+
                     customMessages.DEFAULT_MESSAGE.status               = customMessages.SUCCESS_RESPONSE.status
                     customMessages.DEFAULT_MESSAGE.status_code          = customMessages.SUCCESS_RESPONSE.status_code
                     customMessages.DEFAULT_MESSAGE.response.atividade   = result

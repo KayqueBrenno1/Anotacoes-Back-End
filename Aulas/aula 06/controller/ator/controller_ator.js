@@ -15,6 +15,7 @@ const atorDAO = require('../../model/DAO/ator/ator.js')
 const controllerSexo = require('../sexo/controller_sexo.js')
 const controllerNacionalidade = require('../nacionalidade/controller_nacionalidade.js')
 const controllerFotoAtor = require('./controller_foto_ator.js')
+const controllerAtividadeAtor = require('./controller_atividade_ator.js')
 
 //Função para validar os dados de cadastro do Diretor
 const validarDados = async function (ator) {
@@ -74,10 +75,23 @@ const inserirNovoAtor = async function (ator, contentType) {
                         }
                     }
 
-                    customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_CREATED_ITEM.status
-                    customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_CREATED_ITEM.status_code
-                    customMessages.DEFAULT_MESSAGE.message = customMessages.SUCCESS_CREATED_ITEM.message
-                    customMessages.DEFAULT_MESSAGE.response = ator
+                    for (let itemAtor of ator.atividade) {
+                        let atividadeAtor = {
+                            "id_ator": ator.id,
+                            "id_atividade": itemAtor.id
+                        }
+
+                        let resultAtividadeAtor = await controllerAtividadeAtor
+                                                        .inserirNovaAtividadeAtor(atividadeAtor)
+
+                        if (!resultAtividadeAtor.status)
+                            return customMessages.SUCCESS_CREATED_ITEM_WARNING
+                    }
+
+                    customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_CREATED_ITEM.status
+                    customMessages.DEFAULT_MESSAGE.status_code  = customMessages.SUCCESS_CREATED_ITEM.status_code
+                    customMessages.DEFAULT_MESSAGE.message      = customMessages.SUCCESS_CREATED_ITEM.message
+                    customMessages.DEFAULT_MESSAGE.response     = ator
 
                     return customMessages.DEFAULT_MESSAGE //201
                 } else {
@@ -126,6 +140,25 @@ const atualizarAtor = async function (ator, id, contentType) {
                                 if (!resultFotoAtor.status) {
                                     return customMessages.SUCCESS_CREATED_ITEM_WARNING //201 com alerta
                                 }
+                            }
+
+                            
+                        }
+                        
+                        let resultDeleteAtividades = await controllerAtividadeAtor.excluirAtividadesIdAtor(ator.id)
+
+                        if (resultDeleteAtividades.status) {
+                            for (let itemAtor of ator.atividade) {
+                                let atividadeAtor = {
+                                    "id_ator": ator.id,
+                                    "id_atividade": itemAtor.id
+                                }
+
+                                let resultAtividadeAtor = await controllerAtividadeAtor
+                                                                .inserirNovaAtividadeAtor(atividadeAtor)
+
+                                if (!resultAtividadeAtor.status)
+                                    return customMessages.SUCCESS_CREATED_ITEM_WARNING
                             }
                         }
 
@@ -185,12 +218,17 @@ const listarAtor = async function () {
 
                     if (resultFotoAtor.status)
                         ator.foto = resultFotoAtor.response.foto_ator
+
+                    let resultAtividadeAtor = await controllerAtividadeAtor.buscarAtividadesIdAtor(ator.id)
+
+                    if (resultAtividadeAtor.status)
+                        ator.atividade = resultAtividadeAtor.response.atividade_ator
                 }
 
-                customMessages.DEFAULT_MESSAGE.status = customMessages.SUCCESS_RESPONSE.status
-                customMessages.DEFAULT_MESSAGE.status_code = customMessages.SUCCESS_RESPONSE.status_code
-                customMessages.DEFAULT_MESSAGE.response.count = result.length
-                customMessages.DEFAULT_MESSAGE.response.ator = result
+                customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
+                customMessages.DEFAULT_MESSAGE.status_code      = customMessages.SUCCESS_RESPONSE.status_code
+                customMessages.DEFAULT_MESSAGE.response.count   = result.length
+                customMessages.DEFAULT_MESSAGE.response.ator    = result
 
                 return customMessages.DEFAULT_MESSAGE
             } else {
@@ -240,6 +278,11 @@ const buscarAtor = async function (id) {
 
                         if (resultFotoAtor.status)
                             ator.foto = resultFotoAtor.response.foto_ator
+
+                        let resultAtividadeAtor = await controllerAtividadeAtor.buscarAtividadesIdAtor(ator.id)
+
+                        if (resultAtividadeAtor.status)
+                            ator.atividade = resultAtividadeAtor.response.atividade_ator
                     }
 
                     customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status

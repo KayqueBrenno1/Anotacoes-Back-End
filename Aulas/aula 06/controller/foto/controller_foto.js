@@ -10,6 +10,10 @@ const configMessages = require('../modulo/configMessages.js')
 
 const fotoDAO = require('../../model/DAO/foto/foto.js')
 
+//Import das Controllers
+const controllerFotoAtor    = require('../ator/controller_foto_ator.js')
+const controllerFotoDiretor = require('../diretor/controller_foto_diretor.js')
+
 const validarDados = async function (foto) {
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 
@@ -113,6 +117,18 @@ const listarFoto = async function () {
 
         if (result) {
             if (result.length > 0) {
+                for (let foto of result) {
+                    let resultFotoAtor = await controllerFotoAtor.buscarAtoresIdFoto(foto.id)
+
+                    if (resultFotoAtor.status)
+                        foto.ator = resultFotoAtor.response.foto_ator
+
+                    let resultFotoDiretor = await controllerFotoDiretor.buscarDiretoresIdFoto(foto.id)
+
+                    if (resultFotoDiretor.status)
+                        foto.diretor = resultFotoDiretor.response.foto_diretor
+                }
+
                 customMessages.DEFAULT_MESSAGE.status               = customMessages.SUCCESS_RESPONSE.status
                 customMessages.DEFAULT_MESSAGE.status_code          = customMessages.SUCCESS_RESPONSE.status_code
                 customMessages.DEFAULT_MESSAGE.response.count       = result.length
@@ -143,6 +159,18 @@ const buscarFoto = async function (id) {
 
             if (result) {
                 if (result.length > 0) {
+                    for (let foto of result) {
+                    let resultFotoAtor = await controllerFotoAtor.buscarAtoresIdFoto(foto.id)
+
+                    if (resultFotoAtor.status)
+                        foto.ator = resultFotoAtor.response.foto_ator
+
+                    let resultFotoDiretor = await controllerFotoDiretor.buscarDiretoresIdFoto(foto.id)
+
+                    if (resultFotoDiretor.status)
+                        foto.diretor = resultFotoDiretor.response.foto_diretor
+                }
+
                     customMessages.DEFAULT_MESSAGE.status               = customMessages.SUCCESS_RESPONSE.status
                     customMessages.DEFAULT_MESSAGE.status_code          = customMessages.SUCCESS_RESPONSE.status_code
                     customMessages.DEFAULT_MESSAGE.response.foto_url    = result

@@ -11,9 +11,10 @@ const configMessages = require('../modulo/configMessages.js')
 const diretorDAO = require('../../model/DAO/diretor/diretor.js')
 
 //Import das Controllers
-const controllerSexo = require('../sexo/controller_sexo.js')
-const controllerNacionalidade = require('../nacionalidade/controller_nacionalidade.js')
-const controllerFotoDiretor = require('./controller_foto_diretor.js')
+const controllerSexo                = require('../sexo/controller_sexo.js')
+const controllerNacionalidade       = require('../nacionalidade/controller_nacionalidade.js')
+const controllerFotoDiretor         = require('./controller_foto_diretor.js')
+const controllerAtividadeDiretor    = require('./controller_atividade_diretor.js')
 
 //Função para validar os dados de cadastro do Diretor
 const validarDados = async function (diretor) {
@@ -75,6 +76,19 @@ const inserirNovoDiretor = async function (diretor, contentType) {
                         }
                     }
 
+                    for (let itemDiretor of diretor.atividade) {
+                        let atividadeDiretor = {
+                            "id_diretor": diretor.id,
+                            "id_atividade": itemDiretor.id
+                        }
+
+                        let resultAtividadeDiretor = await controllerAtividadeDiretor
+                                                            .inserirNovaAtividadeDiretor(atividadeDiretor)
+
+                        if (!resultAtividadeDiretor.status)
+                            return customMessages.SUCCESS_CREATED_ITEM_WARNING
+                    }
+
                     customMessages.DEFAULT_MESSAGE.status       = customMessages.SUCCESS_CREATED_ITEM.status
                     customMessages.DEFAULT_MESSAGE.status_code  = customMessages.SUCCESS_CREATED_ITEM.status_code
                     customMessages.DEFAULT_MESSAGE.message      = customMessages.SUCCESS_CREATED_ITEM.message
@@ -125,6 +139,23 @@ const atualizarDiretor = async function (diretor, id, contentType) {
                                 if (!resultFotoDiretor.status) {
                                     return customMessages.SUCCESS_CREATED_ITEM_WARNING
                                 }
+                            }
+                        }
+
+                        let resultDeleteAtividades = await controllerAtividadeDiretor.excluirAtividadesIdDiretor(diretor.id)
+
+                        if (resultDeleteAtividades.status) {
+                            for (let itemDiretor of diretor.atividade) {
+                                let atividadeDiretor = {
+                                    "id_diretor": diretor.id,
+                                    "id_atividade": itemDiretor.id
+                                }
+
+                                let resultAtividadeDiretor = await controllerAtividadeDiretor
+                                                                    .inserirNovaAtividadeDiretor(atividadeDiretor)
+
+                                if (!resultAtividadeDiretor.status)
+                                    return customMessages.SUCCESS_CREATED_ITEM_WARNING
                             }
                         }
 
@@ -190,6 +221,12 @@ const listarDiretor = async function () {
 
                     if (resultFotoDiretor.status)
                         diretor.foto = resultFotoDiretor.response.foto_diretor
+
+                    let resultAtividadeDiretor = await controllerAtividadeDiretor
+                                                            .buscarAtividadesIdDiretor(diretor.id)
+
+                    if (resultAtividadeDiretor.status)
+                        diretor.atividade = resultAtividadeDiretor.response.atividade_diretor
                 }
 
                 customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
@@ -253,6 +290,12 @@ const buscarDiretor = async function (id) {
 
                         if (resultFotoDiretor.status)
                             diretor.foto = resultFotoDiretor.response.foto_diretor
+
+                        let resultAtividadeDiretor = await controllerAtividadeDiretor
+                                                            .buscarAtividadesIdDiretor(diretor.id)
+
+                        if (resultAtividadeDiretor.status)
+                            diretor.atividade = resultAtividadeDiretor.response.atividade_diretor
                     }
 
                     customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
