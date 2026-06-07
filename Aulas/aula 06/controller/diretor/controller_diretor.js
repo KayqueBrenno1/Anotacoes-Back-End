@@ -41,9 +41,9 @@ const validarDados = async function (diretor) {
 
 const tratarDados = async function (diretor) {
     //Tratamento para eliminar a chegada da aspas (') como caracter inválido
-    diretor.nome = diretor.nome.replaceAll("'", "")
+    diretor.nome            = diretor.nome.replaceAll("'", "")
     diretor.data_nascimento = diretor.data_nascimento.replaceAll("'", "")
-    diretor.biografia = diretor.biografia.replaceAll("'", "")
+    diretor.biografia       = diretor.biografia.replaceAll("'", "")
 
     return diretor
 }

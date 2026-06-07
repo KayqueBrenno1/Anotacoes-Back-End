@@ -12,12 +12,13 @@ const configMessages = require('../modulo/configMessages.js')
 const atorDAO = require('../../model/DAO/ator/ator.js')
 
 //Import das Controllers
-const controllerSexo = require('../sexo/controller_sexo.js')
-const controllerNacionalidade = require('../nacionalidade/controller_nacionalidade.js')
-const controllerFotoAtor = require('./controller_foto_ator.js')
-const controllerAtividadeAtor = require('./controller_atividade_ator.js')
+const controllerSexo            = require('../sexo/controller_sexo.js')
+const controllerNacionalidade   = require('../nacionalidade/controller_nacionalidade.js')
+const controllerFotoAtor        = require('./controller_foto_ator.js')
+const controllerAtividadeAtor   = require('./controller_atividade_ator.js')
+const controllerFilmeAtor       = require('../filme/controller_filme_ator.js')
 
-//Função para validar os dados de cadastro do Diretor
+//Função para validar os dados de cadastro do Ator
 const validarDados = async function (ator) {
     let customMessages = JSON.parse(JSON.stringify(configMessages))
 
@@ -39,9 +40,9 @@ const validarDados = async function (ator) {
 }
 
 const tratarDados = async function (ator) {
-    ator.nome = ator.nome.replaceAll("'", "")
-    ator.data_nascimento = ator.data_nascimento.replaceAll("'", "")
-    ator.biografia = ator.biografia.replaceAll("'", "")
+    ator.nome               = ator.nome.replaceAll("'", "")
+    ator.data_nascimento    = ator.data_nascimento.replaceAll("'", "")
+    ator.biografia          = ator.biografia.replaceAll("'", "")
 
     return ator
 }
@@ -223,6 +224,11 @@ const listarAtor = async function () {
 
                     if (resultAtividadeAtor.status)
                         ator.atividade = resultAtividadeAtor.response.atividade_ator
+
+                    let resultFilmeAtor = await controllerFilmeAtor.buscarFilmesIdAtores(ator.id)
+
+                    if (resultFilmeAtor.status)
+                        ator.filme = resultFilmeAtor.response.filme_ator
                 }
 
                 customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
@@ -283,6 +289,11 @@ const buscarAtor = async function (id) {
 
                         if (resultAtividadeAtor.status)
                             ator.atividade = resultAtividadeAtor.response.atividade_ator
+
+                        let resultFilmeAtor = await controllerFilmeAtor.buscarFilmesIdAtores(ator.id)
+
+                        if (resultFilmeAtor.status)
+                            ator.filme = resultFilmeAtor.response.filme_ator
                     }
 
                     customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
