@@ -15,6 +15,7 @@ const controllerSexo                = require('../sexo/controller_sexo.js')
 const controllerNacionalidade       = require('../nacionalidade/controller_nacionalidade.js')
 const controllerFotoDiretor         = require('./controller_foto_diretor.js')
 const controllerAtividadeDiretor    = require('./controller_atividade_diretor.js')
+const controllerFilmeDiretor        = require('../filme/controller_filme_diretor.js')
 
 //Função para validar os dados de cadastro do Diretor
 const validarDados = async function (diretor) {
@@ -227,6 +228,12 @@ const listarDiretor = async function () {
 
                     if (resultAtividadeDiretor.status)
                         diretor.atividade = resultAtividadeDiretor.response.atividade_diretor
+
+                    let resultFIlmeDiretor = await controllerFilmeDiretor
+                                                        .buscarFilmesIdDiretor(diretor.id)
+
+                    if (resultFIlmeDiretor.status)
+                        diretor.filme = resultFIlmeDiretor.response.filme_diretor
                 }
 
                 customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
@@ -296,6 +303,12 @@ const buscarDiretor = async function (id) {
 
                         if (resultAtividadeDiretor.status)
                             diretor.atividade = resultAtividadeDiretor.response.atividade_diretor
+
+                        let resultFIlmeDiretor = await controllerFilmeDiretor
+                                                        .buscarFilmesIdDiretor(diretor.id)
+
+                        if (resultFIlmeDiretor.status)
+                            diretor.filme = resultFIlmeDiretor.response.filme_diretor
                     }
 
                     customMessages.DEFAULT_MESSAGE.status           = customMessages.SUCCESS_RESPONSE.status
