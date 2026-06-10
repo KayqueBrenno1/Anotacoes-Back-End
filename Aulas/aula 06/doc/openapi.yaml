@@ -51,7 +51,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Filme'  
+                  $ref: '#/components/schemas/FilmeGet'  
         '404':
           description: Error Not Found
         '500':
@@ -76,7 +76,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Filme'          
+                $ref: '#/components/schemas/FilmeGet'          
         '400':
           description: Error Bad Request (id)
         '404':
@@ -170,7 +170,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Genero'  
+                  $ref: '#/components/schemas/GeneroGet'  
         '404':
           description: Error Not Found
         '500':
@@ -195,7 +195,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Genero'          
+                $ref: '#/components/schemas/GeneroGet'          
         '400':
           description: Error Bad Request (ID)
         '404':
@@ -289,7 +289,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Classificacao'  
+                  $ref: '#/components/schemas/ClassificacaoGet'  
         '404':
           description: Error Not Found
         '500':
@@ -314,7 +314,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Classificacao'          
+                $ref: '#/components/schemas/ClassificacaoGet'          
         '400':
           description: Error Bad Request (ID)
         '404':
@@ -408,7 +408,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Sexo'  
+                  $ref: '#/components/schemas/SexoGet'  
         '404':
           description: Error Not Found
         '500':
@@ -433,7 +433,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Sexo'          
+                $ref: '#/components/schemas/SexoGet'          
         '400':
           description: Error Bad Request (ID)
         '404':
@@ -527,7 +527,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Nacionalidade'  
+                  $ref: '#/components/schemas/NacionalidadeGet'  
         '404':
           description: Error Not Found
         '500':
@@ -552,7 +552,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Nacionalidade'          
+                $ref: '#/components/schemas/NacionalidadeGet'          
         '400':
           description: Error Bad Request (ID)
         '404':
@@ -646,7 +646,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Atividade'  
+                  $ref: '#/components/schemas/AtividadeGet'  
         '404':
           description: Error Not Found
         '500':
@@ -671,7 +671,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Atividade'          
+                $ref: '#/components/schemas/AtividadeGet'          
         '400':
           description: Error Bad Request (ID)
         '404':
@@ -765,7 +765,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Foto'  
+                  $ref: '#/components/schemas/FotoGet'  
         '404':
           description: Error Not Found
         '500':
@@ -790,7 +790,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Foto'          
+                $ref: '#/components/schemas/FotoGet'          
         '400':
           description: Error Bad Request (ID)
         '404':
@@ -850,6 +850,56 @@ paths:
           description: Error Internal Server (Controller | Model)
 components:
   schemas:
+    Ator:
+      required:
+        - nome
+        - data_nascimento
+        - id_sexo_ator
+        - id_nacionalidade_ator
+      type: object
+      properties:
+        nome:
+          type: string
+          description: O número máximo de caracteres é de 100
+        data_nascimento:
+          type: string
+          format: date
+          example: 1982-06-16
+        biografia:
+          type: string
+          description: O número máximo de caracteres é ilimitado
+        id_sexo_ator:
+          type: integer
+          example: 1
+        id_nacionalidade_ator:
+          type: integer
+          example: 1
+    
+    Diretor:
+      required:
+        - nome
+        - data_nascimento
+        - id_sexo_diretor
+        - id_nacionalidade_diretor
+      type: object
+      properties:
+        nome:
+          type: string
+          description: O número máximo de caracteres é de 100
+        data_nascimento:
+          type: string
+          format: date
+          example: 1990-04-16
+        biografia:
+          type: string
+          description: O número máximo de caracteres é ilimitado
+        id_sexo_diretor:
+          type: integer
+          example: 1
+        id_nacionalidade_diretor:
+          type: integer
+          example: 1
+        
     Filme:
       required:
         - nome
@@ -859,8 +909,6 @@ components:
         - duracao
       type: object
       properties:
-        id:
-          type: integer
         nome:
           type: string
           description: O número máximo de caracteres é de 80
@@ -894,8 +942,6 @@ components:
         - genero
       type: object
       properties:
-        id:
-          type: integer
         genero:
           type: string
           description: O número máximo de caracteres é de 30
@@ -905,8 +951,6 @@ components:
         - classificacao
       type: object
       properties:
-        id:
-          type: integer
         classificacao:
           type: string
           description: O número máximo de caracteres é de 6
@@ -917,8 +961,6 @@ components:
         - sigla
       type: object
       properties:
-        id:
-          type: integer
         sexo:
           type: string
           description: O número máximo de caracteres é de 20
@@ -932,8 +974,6 @@ components:
         - sigla
       type: object
       properties:
-        id:
-          type: integer
         nacionalidade:
           type: string
           description: O número máximo de caracteres é de 90
@@ -946,8 +986,6 @@ components:
         - atividade
       type: object
       properties:
-        id:
-          type: integer
         atividade:
           type: string
           description: O número máximo de caracteres é de 40
@@ -957,12 +995,181 @@ components:
         - foto_url
       type: object
       properties:
-        id:
-          type: integer
         foto_url:
           type: string
           description: O número máximo de caracteres é de 255
+
+    # GETS
+    AtorGet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          description: O número máximo de caracteres é de 100
+          example: Nicolas Cage
+        data_nascimento:
+          type: string
+          format: date
+          example: 1982-06-16
+        biografia:
+          type: string
+          description: O número máximo de caracteres é ilimitado
+        id_sexo_ator:
+          type: integer
+          example: 1
+        id_nacionalidade_ator:
+          type: integer
+          example: 1
+
+    DiretorGet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          description: O número máximo de caracteres é de 100
+          example: Teste Diretor
+        data_nascimento:
+          type: string
+          format: date
+          example: 1990-04-16
+        biografia:
+          type: string
+          description: O número máximo de caracteres é ilimitado
+        id_sexo_diretor:
+          type: integer
+          example: 1
+        id_nacionalidade_diretor:
+          type: integer
+          example: 1
+        
+    FilmeGet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          description: O número máximo de caracteres é de 80
+          example: Sexta Feira 13
+        sinopse:
+          type: string
+          description: O número máximo de caracteres é ilimitado
+        capa:
+          type: string
+          description: O número máximo de caracteres é 255
+          example: url da foto
+        data_lancamento:
+          type: string
+          format: date
+          example: 2026-01-01
+        duracao:
+          type: string
+          example: "01:30:00"
+          pattern: '^(?:[01]\d|2[0-3]):[0-5]\d$'
+        valor:
+          type: number
+          format: double
+          example: 99.99
+          description: O número máximo de caracteres é 999 e duas casas decimais (.99)
+        avaliacao:
+          type: number
+          format: double
+          example: 5.0
+          description: O número máximo de caracteres é 5 e uma casa decimal (.9), com o máximo de 5.0
+    
+    GeneroGet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        genero:
+          type: string
+          description: O número máximo de caracteres é de 30
+          example: Terror
+    
+    ClassificacaoGet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        classificacao:
+          type: string
+          description: O número máximo de caracteres é de 6
+          example: +18
+    
+    SexoGet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        sexo:
+          type: string
+          description: O número máximo de caracteres é de 20
+          example: Masculino
+        sigla:
+          type: string
+          description: O número máximo de caracteres é de 3
+          example: M
+    
+    NacionalidadeGet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nacionalidade:
+          type: string
+          description: O número máximo de caracteres é de 90
+          example: Brasileiro
+        sigla:
+          type: string
+          description: O número máximo de caracteres é de 4
+          example: BR
+    
+    AtividadeGet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        atividade:
+          type: string
+          description: O número máximo de caracteres é de 40
+          example: Duble
+    
+    FotoGet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        foto_url:
+          type: string
+          description: O número máximo de caracteres é de 255
+          example: url da foto
   requestBodies:
+    Ator:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Ator'
+    Diretor:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Diretor'
     Filme:
       description: Objeto que deve ser enviado no Body das requisicoes
       content:
@@ -1005,3 +1212,59 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Foto'
+
+    # GETS
+    AtorGet:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AtorGet'
+    DiretorGet:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DiretorGet'
+    FilmeGet:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FilmeGet'
+    GeneroGet:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneroGet'
+    ClassificacaoGet:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClassificacaoGet'
+    SexoGet:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SexoGet'
+    NacionalidadeGet:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NacionalidadeGet'
+    AtividadeGet:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AtividadeGet'
+    FotoGet:
+      description: Objeto que deve ser enviado no Body das requisicoes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FotoGet'
