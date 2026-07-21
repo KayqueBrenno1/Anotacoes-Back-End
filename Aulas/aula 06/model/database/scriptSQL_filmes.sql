@@ -223,3 +223,38 @@ create table tbl_filme_diretor (
     references tbl_diretor(id)
 );
 
+# ============================ TRIGGERS ============================
+
+DELIMITER $
+
+# DELETE FILME
+create trigger tgrDeleteFilme
+before delete on tbl_filme
+for each row
+BEGIN
+    delete from tbl_filme_ator where id_filme = old.id;
+    delete from tbl_genero_filme where id_filme = old.id;
+    delete from tbl_filme_diretor where id_filme = old.id;
+END$
+
+# DELETE ATOR
+create trigger tgrDeleteAtor
+before delete on tbl_ator
+for each row
+BEGIN
+    delete from tbl_filme_ator where id_ator = old.id;
+    delete from tbl_foto_ator where id_ator = old.id;
+    delete from tbl_atividade_ator where id_ator = old.id;
+END$
+
+# DELETE DIRETOR
+create trigger tgrDeleteDiretor
+before delete on tbl_diretor
+for each row
+BEGIN
+    delete from tbl_filme_diretor where id_diretor = old.id;
+    delete from tbl_foto_diretor where id_diretor = old.id;
+    delete from tbl_atividade_diretor where id_diretor = old.id;
+END$
+
+DELIMITER ;
